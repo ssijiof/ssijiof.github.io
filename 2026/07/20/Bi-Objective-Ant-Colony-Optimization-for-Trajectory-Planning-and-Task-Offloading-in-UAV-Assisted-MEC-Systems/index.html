@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems | 论文笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="名词：  MEC（边缘计算）：mobile edge computing  SD：smart device Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）  论文提出的问题：  使用两种异构的 UAV ，在成本和完成时间的两个目标约束下，利用帕累托优化方法，实现对 SDs 的数据收集，处理和结果反馈  问题场景：  创新点：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems">
+<meta property="og:url" content="https://rookie.github.io/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/index.html">
+<meta property="og:site_name" content="论文笔记">
+<meta property="og:description" content="名词：  MEC（边缘计算）：mobile edge computing  SD：smart device Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）  论文提出的问题：  使用两种异构的 UAV ，在成本和完成时间的两个目标约束下，利用帕累托优化方法，实现对 SDs 的数据收集，处理和结果反馈  问题场景：  创新点：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rookie.github.io/images/UAV%E9%83%A8%E7%BD%B2.jpg">
+<meta property="og:image" content="https://rookie.github.io/images/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%A4%BA%E4%BE%8B.png">
+<meta property="og:image" content="https://rookie.github.io/images/%E7%94%98%E7%89%B9%E5%9B%BE.png">
+<meta property="article:published_time" content="2026-07-20T01:53:58.000Z">
+<meta property="article:modified_time" content="2026-07-20T09:34:41.627Z">
+<meta property="article:author" content="rookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rookie.github.io/images/UAV%E9%83%A8%E7%BD%B2.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="论文笔记" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">论文笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rookie.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/" class="article-date">
+  <time class="dt-published" datetime="2026-07-20T01:53:58.000Z" itemprop="datePublished">2026-07-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>名词：</p>
+<ul>
+<li>MEC（边缘计算）：mobile edge computing </li>
+<li>SD：smart device</li>
+<li>Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）</li>
+</ul>
+<p>论文提出的问题：</p>
+<ul>
+<li>使用两种异构的 UAV ，在成本和完成时间的两个目标约束下，利用帕累托优化方法，实现对 SDs 的数据收集，处理和结果反馈</li>
+</ul>
+<p>问题场景：</p>
+<p><img src="/images/UAV%E9%83%A8%E7%BD%B2.jpg" alt="UAV部署"></p>
+<p>创新点：</p>
+<p>基于问题建模：</p>
+<p><img src="/images/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%A4%BA%E4%BE%8B.png" alt="解决方案示例"></p>
+<ul>
+<li>其中，方案一使用的是 reversed UAV；方案二两种 UAV 均使用</li>
+<li>方案一：成本低，但是存在 UAV 过载的情况和任务完成时间较长的问题；方案二：任务完成时间较短，但是成本较高</li>
+</ul>
+<p><img src="/images/%E7%94%98%E7%89%B9%E5%9B%BE.png" alt="甘特图"></p>
+<ul>
+<li><p>假设一个阶段有 𝕋 &#x3D; {𝑇1, … , 𝑇𝑛} n 项任务需要处理，task 𝑇𝑖 &#x3D; &lt; 𝐷𝑇 (𝑇𝑖), 𝑃 (𝑇𝑖), RT(𝑇𝑖), 𝐿(𝑇𝑖), 𝐷(𝑇𝑖) &gt;<br>–其中（前三个是 𝑇𝑖 任务的三个子任务）：<br>（i）𝐷T(𝑇𝑖) 是数据传输时间，UAV 悬停在 SD 上方，接收 𝑇𝑖 的数据<br>（ii）𝑃 (𝑇𝑖) 是任务处理时间，𝑈𝑗 could hover near the SD or fly to another location<br>（iii）RT(𝑇𝑖) 是结果传输时间，UAV 悬停在 SD 上方，发送给结果给 𝑇𝑖<br>（iv）𝐿(𝑇𝑖) 是 𝑇𝑖 位置<br>（v）𝐷(𝑇𝑖) 截止时间（guarantee the data freshness —— 数据的时效性）</p>
+</li>
+<li><p>任务分配：An assignment 𝑎𝑖 of 𝑇𝑖 is represented by a 7-tuple &lt; 𝑈 (𝑇𝑖), 𝑆 (𝑇𝑖,1), 𝐶 (𝑇𝑖,1), 𝑆 (𝑇𝑖,2), 𝐶 (𝑇𝑖,2), 𝑆 (𝑇𝑖,3), 𝐶 (𝑇𝑖,3) &gt; （𝑈 (𝑇𝑖) 指的是分配 𝑇𝑖 任务的 UAV，𝑆 是子任务的开始时间，𝐶 是子任务完成时间）</p>
+</li>
+<li><p>无人机分配：An assignment 𝜋𝑗 of 𝑈𝑗 can be represented by a sub-task sequence 𝜋𝑗 &#x3D; (𝜋𝑗,1, 𝜋𝑗,2, … , 𝜋𝑗,𝐾𝑗) , where 𝜋𝑗,𝑘 (𝑘 &#x3D; 1, … , 𝐾𝑗) could be a sub-task or a swapping-battery task 𝑇𝑠𝑤𝑎𝑝.𝐾𝑗 is the number of sub-tasks (including swapping-battery tasks) assigned to 𝑈𝑗；𝐿𝑠(𝜋𝑗,𝑘) and 𝐿𝑐 (𝜋𝑗,𝑘) as the locations at the times of 𝑆 (𝜋𝑗,𝑘) and 𝐶 (𝜋𝑗,𝑘)</p>
+</li>
+<li><p>UAV 有两种：reserved UAVs and on-demand UAVs<br>（i）reserved UAVs：computation resources with long-term contracts with lower price 𝛼 per time unit $\varepsilon$ （算力价格便宜）<br>（ii）on-demand UAVs：temporary resources with higher unit price 𝛽 per time unit 𝜀 （算力价格贵）</p>
+</li>
+<li><p>𝔹 代表基站的集合（两种 UAV 均是部署在基站且 UAV 可以在任意的一个基站更换电池，假设花费一个时间单位 𝜀）</p>
+</li>
+</ul>
+<p>提出的方法（A bi-criterion ant colony optimization (bi-ACO) framework）：</p>
+<ul>
+<li>引入目标不同的多个异构蚁群，每个蚁群维护 5 对信息素矩阵为构建可行解</li>
+<li>三个重要部分组成：<br>（i） feasible solution generation method (FSGM) to construct a feasible solution<br>（ii）solution division method (SDM) to improve obtained solutions of good quality<br>（iii） pheromone update method (PUM) to updates pheromone matrices by pheromone evaporation operation（信息素蒸发） and pheromone enhancement operation based on the preferences of colonies.</li>
+</ul>
+<p>算法实现：</p>
+<hr>
+<details>
+<summary><b>符号表</b></summary>
+
+<table>
+<thead>
+<tr>
+<th>Notation</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$n$</td>
+<td>Number of SDs&#x2F;tasks</td>
+</tr>
+<tr>
+<td>$\mathbb{T} &#x3D; {T_1, \dots, T_n}$</td>
+<td>Set of tasks</td>
+</tr>
+<tr>
+<td>$T_i$</td>
+<td>$i$-th task</td>
+</tr>
+<tr>
+<td>$DT(T_i)$</td>
+<td>Data transmission time of $T_i$</td>
+</tr>
+<tr>
+<td>$P(T_i)$</td>
+<td>Processing time of $T_i$</td>
+</tr>
+<tr>
+<td>$RT(T_i)$</td>
+<td>Result transmission time of $T_i$</td>
+</tr>
+<tr>
+<td>$L(T_i)$</td>
+<td>Location of $T_i$</td>
+</tr>
+<tr>
+<td>$D(T_i)$</td>
+<td>Deadline of $T_i$</td>
+</tr>
+<tr>
+<td>$m$</td>
+<td>Number of reserved UAVs</td>
+</tr>
+<tr>
+<td>$\mathbb{U} &#x3D; {U_1, \dots, U_m}$</td>
+<td>Set of reserved UAVs</td>
+</tr>
+<tr>
+<td>$U_j$</td>
+<td>$j$-th UAV in $\mathbb{U}$</td>
+</tr>
+<tr>
+<td>$\mathbb{U}’$</td>
+<td>Set of on-demand UAVs</td>
+</tr>
+<tr>
+<td>$\varepsilon$</td>
+<td>Charging time unit of UAVs</td>
+</tr>
+<tr>
+<td>$\alpha, \beta$</td>
+<td>Charging prices of reserved and on-demand UAVs per time unit $\varepsilon$</td>
+</tr>
+<tr>
+<td>$\nu$</td>
+<td>Average flying speed of UAVs</td>
+</tr>
+<tr>
+<td>$\mathbb{D}(L, L’)$</td>
+<td>Distance between locations $L$ and $L’$</td>
+</tr>
+<tr>
+<td>$\mathbb{B}$</td>
+<td>Set of base stations</td>
+</tr>
+<tr>
+<td>$L_0(U_j) \in \mathbb{B}$</td>
+<td>Initial location of $U_j$</td>
+</tr>
+<tr>
+<td>$\mathbb{P}(v)$</td>
+<td>Energy consumption in watt with the flying speed $v$</td>
+</tr>
+<tr>
+<td>$E_{max}$</td>
+<td>Maximum energy capacity of an UAV</td>
+</tr>
+<tr>
+<td>$T_{i,1}, T_{i,2}, T_{i,3}$</td>
+<td>Three sub-tasks of $T_i$</td>
+</tr>
+<tr>
+<td>$S(T_{i,h})$</td>
+<td>Starting time of $T_{i,h}$, $h &#x3D; 1, 2, 3$</td>
+</tr>
+<tr>
+<td>$C(T_{i,h})$</td>
+<td>Completion time of $T_{i,h}$, $h &#x3D; 1, 2, 3$</td>
+</tr>
+<tr>
+<td>$a_i$</td>
+<td>Task assignment of $T_i$</td>
+</tr>
+<tr>
+<td>$U(T_i)$</td>
+<td>UAV allocated to $T_i$</td>
+</tr>
+<tr>
+<td>$K_j$</td>
+<td>Number of sub-tasks assigned to $U_j$</td>
+</tr>
+<tr>
+<td>$\pi_j &#x3D; (\pi_{j,1}, \dots, \pi_{j,K_j})$</td>
+<td>Task assignment of $U_j$</td>
+</tr>
+<tr>
+<td>$\pi_{j,k}$</td>
+<td>$k$-th task in $\pi_j$</td>
+</tr>
+<tr>
+<td>$T_{swap}$</td>
+<td>Swapping-battery task</td>
+</tr>
+<tr>
+<td>$L_s(\pi_{j,k})$</td>
+<td>Location of UAV at time $S(\pi_{j,k})$</td>
+</tr>
+<tr>
+<td>$L_c(\pi_{j,k})$</td>
+<td>Location of UAV at time $C(\pi_{j,k})$</td>
+</tr>
+<tr>
+<td>$\mathbb{S} &#x3D; \langle A, \Pi \rangle$</td>
+<td>Schedule solution</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>Set of task assignments</td>
+</tr>
+<tr>
+<td>$\Pi$</td>
+<td>Set of UAV assignments</td>
+</tr>
+<tr>
+<td>$E_j(t)$</td>
+<td>Residual energy of $U_j$ at time $t$</td>
+</tr>
+<tr>
+<td>$TC(\mathbb{S})$</td>
+<td>Total cost of $\mathbb{S}$</td>
+</tr>
+<tr>
+<td>$CT(\mathbb{S})$</td>
+<td>Completion time of $\mathbb{S}$</td>
+</tr>
+</tbody></table>
+</details>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rookie.github.io/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/" data-id="cuidj3pEfPviSb3BRoevX7aRl" data-title="Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/07/21/github/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          github
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/07/11/python%E8%AF%AD%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">python语法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/UAV/" style="font-size: 10px;">UAV</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">七月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/07/21/github/">github</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/">Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/11/python%E8%AF%AD%E6%B3%95/">python语法</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/">ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 rookie<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

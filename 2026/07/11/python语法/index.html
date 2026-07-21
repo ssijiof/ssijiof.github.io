@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>python语法 | 论文笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、元组   元组中的元素无法修改 元组可以作为字典中的键，而列表不可以  1d &#x3D; &#123;(1, 2): &quot;点A&quot;&#125;      二、for 循环  1. 使用 range()123range(stop)              # 0 到 stop-1range(start, stop)       # start 到 stop-1range(start,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python语法">
+<meta property="og:url" content="https://rookie.github.io/2026/07/11/python%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="论文笔记">
+<meta property="og:description" content="一、元组   元组中的元素无法修改 元组可以作为字典中的键，而列表不可以  1d &#x3D; &#123;(1, 2): &quot;点A&quot;&#125;      二、for 循环  1. 使用 range()123range(stop)              # 0 到 stop-1range(start, stop)       # start 到 stop-1range(start,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-11T01:46:57.000Z">
+<meta property="article:modified_time" content="2026-07-15T09:17:15.579Z">
+<meta property="article:author" content="rookie">
+<meta property="article:tag" content="grammar">
+<meta property="article:tag" content="skills">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="论文笔记" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">论文笔记</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rookie.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-python语法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/07/11/python%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2026-07-11T01:46:57.000Z" itemprop="datePublished">2026-07-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      python语法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <details>
+<summary><b>一、元组</b></summary>
+
+<ol>
+<li>元组中的元素无法修改</li>
+<li>元组可以作为字典中的键，而列表不可以</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;(<span class="number">1</span>, <span class="number">2</span>): <span class="string">&quot;点A&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<details>
+<summary><b>二、for 循环</b></summary>
+
+<h3 id="1-使用-range"><a href="#1-使用-range" class="headerlink" title="1. 使用 range()"></a>1. 使用 range()</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">range</span>(stop)              <span class="comment"># 0 到 stop-1</span></span><br><span class="line"><span class="built_in">range</span>(start, stop)       <span class="comment"># start 到 stop-1</span></span><br><span class="line"><span class="built_in">range</span>(start, stop, step) <span class="comment"># 步长为 step</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):         <span class="comment"># 0, 1, 2, 3, 4</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="number">5</span>):      <span class="comment"># 2, 3, 4</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">10</span>, <span class="number">2</span>):  <span class="comment"># 0, 2, 4, 6, 8（步长2）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-解包的使用"><a href="#2-解包的使用" class="headerlink" title="2. 解包的使用"></a>2. 解包的使用</h3><p>字典默认遍历键，<code>for k, v in d.items()</code> 本质就是解包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;b&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> d:             <span class="comment"># 遍历键 → &quot;a&quot;, &quot;b&quot;</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> d.keys():      <span class="comment"># 等价写法</span></span><br><span class="line"><span class="keyword">for</span> v <span class="keyword">in</span> d.values():    <span class="comment"># 遍历值 → 1, 2</span></span><br><span class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> d.items():  <span class="comment"># 同时遍历键值（解包元组）</span></span><br></pre></td></tr></table></figure>
+
+<p>遍历嵌套序列时同样可以解包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">points = [(<span class="number">1</span>, <span class="number">2</span>), (<span class="number">3</span>, <span class="number">4</span>), (<span class="number">5</span>, <span class="number">6</span>)]</span><br><span class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> points:          <span class="comment"># 直接解包每个元组</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;x=<span class="subst">&#123;x&#125;</span>, y=<span class="subst">&#123;y&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>enumerate()</code> 同时拿索引和值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, val <span class="keyword">in</span> <span class="built_in">enumerate</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]):</span><br><span class="line">    <span class="built_in">print</span>(i, val)             <span class="comment"># 0 a, 1 b, 2 c</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-zip-—-同时遍历多个序列"><a href="#3-zip-—-同时遍历多个序列" class="headerlink" title="3. zip() — 同时遍历多个序列"></a>3. zip() — 同时遍历多个序列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">names = [<span class="string">&quot;张三&quot;</span>, <span class="string">&quot;李四&quot;</span>]</span><br><span class="line">scores = [<span class="number">90</span>, <span class="number">85</span>]</span><br><span class="line"><span class="keyword">for</span> name, score <span class="keyword">in</span> <span class="built_in">zip</span>(names, scores):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>: <span class="subst">&#123;score&#125;</span>分&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="comment"># 张三: 90分</span></span><br><span class="line"><span class="comment"># 李四: 85分</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<details>
+<summary><b>三、列表</b></summary>
+
+<h3 id="1-空列表"><a href="#1-空列表" class="headerlink" title="1. 空列表"></a>1. 空列表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="literal">None</span>] * n    <span class="comment"># n 指的是长度</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-使用-append（列表可以动态修改）"><a href="#2-使用-append（列表可以动态修改）" class="headerlink" title="2. 使用 append（列表可以动态修改）"></a>2. 使用 append（列表可以动态修改）</h3><p><code>append</code> 可以在列表末尾添加一个元素。</p>
+<p>注：直接修改原列表，返回 <code>None</code>。</p>
+<h3 id="3-列表的拷贝"><a href="#3-列表的拷贝" class="headerlink" title="3. 列表的拷贝"></a>3. 列表的拷贝</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p = [<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line">copy = p[:]          <span class="comment"># 新列表，内容和 p 一样</span></span><br><span class="line"></span><br><span class="line">copy[<span class="number">1</span>] = <span class="number">99</span></span><br><span class="line"><span class="built_in">print</span>(p)             <span class="comment"># [0, 3, 1, 5, 2, 4]  ← 没变</span></span><br><span class="line"><span class="built_in">print</span>(copy)          <span class="comment"># [0, 99, 1, 5, 2, 4] ← 只改了副本</span></span><br></pre></td></tr></table></figure>
+
+
+</details>
+
+<hr>
+<details>
+<summary><b>四、可变对象和不可变对象</b></summary>
+
+<ol>
+<li><p><code>int</code>、<code>float</code>、<code>str</code>、<code>tuple</code>（元组）是不可变对象</p>
+</li>
+<li><p><code>list</code>、<code>dict</code>、<code>set</code>（集合——无序、不重复的元素集合）是可变的</p>
+</li>
+<li><p>关键误区：可变对象里的 <code>=</code> 赋值——函数对形参重新 <code>=</code> 赋值，在 Python 中永远只改变局部指向，不影响外部</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">change</span>(<span class="params">lst</span>):</span><br><span class="line">    lst = [<span class="number">100</span>, <span class="number">200</span>]    <span class="comment"># 不是修改，是让 lst 指向新对象！</span></span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">change(a)</span><br><span class="line"><span class="built_in">print</span>(a)                <span class="comment"># → [1, 2, 3]  ← 没变！</span></span><br><span class="line"><span class="comment"># lst = [100, 200] 创建了一个新列表，让 lst 指向它，a 还是指向原来的 [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>在 Python 中传的全是对象引用，但是对象本身分为可变和不可变</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 传进去后</span><br><span class="line">a ──→ [1, 2, 3]   ←── x     两人指着同一个列表</span><br><span class="line"></span><br><span class="line"># x.append(4) 后</span><br><span class="line">a ──→ [1, 2, 3, 4] ←── x    房子被改了，两人都看到变化</span><br><span class="line"></span><br><span class="line"># x = [100] 后</span><br><span class="line">a ──→ [1, 2, 3, 4]            a 还指着原来的</span><br><span class="line">x ──→ [100]                   x 指到新房子里去了</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<details>
+<summary><b>五、随机数</b></summary>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 随机浮点数 [0.0, 1.0)</span></span><br><span class="line">x = random.random()          <span class="comment"># 例：0.3744</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 随机浮点数 [a, b]</span></span><br><span class="line">x = random.uniform(<span class="number">1.5</span>, <span class="number">5.5</span>) <span class="comment"># 例：3.2147</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 随机整数 [a, b]（含两端）</span></span><br><span class="line">x = random.randint(<span class="number">1</span>, <span class="number">10</span>)    <span class="comment"># 例：7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 从序列中随机选一个</span></span><br><span class="line">x = random.choice([<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>])  <span class="comment"># 例：&#x27;B&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 随机打乱列表（原地修改）</span></span><br><span class="line">arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">random.shuffle(arr)           <span class="comment"># 例：[3, 1, 5, 2, 4]</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rookie.github.io/2026/07/11/python%E8%AF%AD%E6%B3%95/" data-id="cuidPsmpbGFOnYN7ePi6ZZkqs" data-title="python语法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/UAV/" style="font-size: 10px;">UAV</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">七月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/07/21/github/">github</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/">Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/11/python%E8%AF%AD%E6%B3%95/">python语法</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/">ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 rookie<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
