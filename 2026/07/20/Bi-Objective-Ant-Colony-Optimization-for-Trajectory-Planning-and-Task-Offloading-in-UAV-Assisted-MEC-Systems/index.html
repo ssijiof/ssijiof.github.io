@@ -6,19 +6,22 @@
   
   <title>Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems | paper and code</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="名词：  MEC（边缘计算）：mobile edge computing  SD：smart device Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）  论文提出的问题：  使用两种异构的 UAV ，在成本和完成时间的两个目标约束下，利用帕累托优化方法，实现对 SDs 的数据收集，处理和结果反馈  问题场景：  创新点：">
+  <meta name="description" content="备注：对比实验部分未看，若是设计多目标的问题可以参考其检测指标和对比实验的方法；论文中使用的目标函数和模型（引用对的论文可以参考）    名词   MEC（边缘计算）：mobile edge computing SD：smart device Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）      论文提出的问题   使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems">
 <meta property="og:url" content="https://ssijiof.github.io/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/index.html">
 <meta property="og:site_name" content="paper and code">
-<meta property="og:description" content="名词：  MEC（边缘计算）：mobile edge computing  SD：smart device Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）  论文提出的问题：  使用两种异构的 UAV ，在成本和完成时间的两个目标约束下，利用帕累托优化方法，实现对 SDs 的数据收集，处理和结果反馈  问题场景：  创新点：">
+<meta property="og:description" content="备注：对比实验部分未看，若是设计多目标的问题可以参考其检测指标和对比实验的方法；论文中使用的目标函数和模型（引用对的论文可以参考）    名词   MEC（边缘计算）：mobile edge computing SD：smart device Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）      论文提出的问题   使用">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ssijiof.github.io/images/UAV%E9%83%A8%E7%BD%B2.jpg">
 <meta property="og:image" content="https://ssijiof.github.io/images/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%A4%BA%E4%BE%8B.png">
 <meta property="og:image" content="https://ssijiof.github.io/images/%E7%94%98%E7%89%B9%E5%9B%BE.png">
 <meta property="article:published_time" content="2026-07-20T01:53:58.000Z">
-<meta property="article:modified_time" content="2026-07-20T09:34:41.627Z">
+<meta property="article:modified_time" content="2026-07-25T07:01:13.624Z">
 <meta property="article:author" content="ssijiof">
+<meta property="article:tag" content="ACO">
+<meta property="article:tag" content="MEC">
+<meta property="article:tag" content="UAV">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ssijiof.github.io/images/UAV%E9%83%A8%E7%BD%B2.jpg">
   
@@ -107,44 +110,162 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>名词：</p>
+        <blockquote>
+<p>备注：对比实验部分未看，若是设计多目标的问题可以参考其检测指标和对比实验的方法；论文中使用的目标函数和模型（引用对的论文可以参考）</p>
+</blockquote>
+<hr>
+<details>
+<summary><b>名词</b></summary>
+
 <ul>
-<li>MEC（边缘计算）：mobile edge computing </li>
+<li>MEC（边缘计算）：mobile edge computing</li>
 <li>SD：smart device</li>
-<li>Pareto optimization：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）</li>
+<li><mark>Pareto optimization</mark>：帕累托优化（存在多个优化目标，但是无法兼得；本文涉及两个：成本和任务完成时间）</li>
 </ul>
-<p>论文提出的问题：</p>
+</details>
+
+<hr>
+<details>
+<summary><b>论文提出的问题</b></summary>
+
 <ul>
-<li>使用两种异构的 UAV ，在成本和完成时间的两个目标约束下，利用帕累托优化方法，实现对 SDs 的数据收集，处理和结果反馈</li>
+<li>使用两种异构的 UAV，在成本和完成时间的两个目标约束下，利用帕累托优化方法，实现对 SDs 进行 Data transmission，Data process 和 Result transmission 三个子任务构成的 task 进行求解并试图获得可行解。</li>
 </ul>
-<p>问题场景：</p>
+</details>
+
+<hr>
+<details>
+<summary><b>问题场景</b></summary>
+
 <p><img src="/images/UAV%E9%83%A8%E7%BD%B2.jpg" alt="UAV部署"></p>
-<p>创新点：</p>
-<p>基于问题建模：</p>
+</details>
+
+<hr>
+<details>
+<summary><b>创新点</b></summary>
+
+<h3 id="1-使用了两种异构的无人机，并且属于多目标问题"><a href="#1-使用了两种异构的无人机，并且属于多目标问题" class="headerlink" title="1. 使用了两种异构的无人机，并且属于多目标问题"></a>1. 使用了两种异构的无人机，并且属于多目标问题</h3><h3 id="2-基于蚁群算法提出了新颖的算法，来构建帕累托前沿"><a href="#2-基于蚁群算法提出了新颖的算法，来构建帕累托前沿" class="headerlink" title="2. 基于蚁群算法提出了新颖的算法，来构建帕累托前沿"></a>2. 基于蚁群算法提出了新颖的算法，来构建帕累托前沿</h3></details>
+
+<hr>
+<details>
+<summary><b>基于问题建模</b></summary>
+
+<ul>
+<li><p>UAV 有两种：reserved UAVs and on-demand UAVs<br>（i）reserved UAVs：computation resources with long-term contracts with lower price $\alpha$ per time unit $\varepsilon$（价格便宜）。<br>（ii）on-demand UAVs：temporary resources with higher unit price $\beta$ per time unit $\varepsilon$（价格贵）。</p>
+</li>
+<li><p>$\mathbb{B}$ 代表基站的集合（两种 UAV 均是部署在基站且 UAV 可以在任意的一个基站更换电池，假设花费一个时间单位 $\varepsilon$）。</p>
+</li>
+</ul>
 <p><img src="/images/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%A4%BA%E4%BE%8B.png" alt="解决方案示例"></p>
 <ul>
-<li>其中，方案一使用的是 reversed UAV；方案二两种 UAV 均使用</li>
-<li>方案一：成本低，但是存在 UAV 过载的情况和任务完成时间较长的问题；方案二：任务完成时间较短，但是成本较高</li>
+<li>方案一使用的是 reserved UAV；方案二使用 reserved UAV 和 on-demand UAV。</li>
+<li>方案一：成本低，但是存在 UAV 过载的情况和任务完成时间较长的问题；方案二：任务完成时间较短，但是成本较高。</li>
 </ul>
 <p><img src="/images/%E7%94%98%E7%89%B9%E5%9B%BE.png" alt="甘特图"></p>
 <ul>
-<li><p>假设一个阶段有 𝕋 &#x3D; {𝑇1, … , 𝑇𝑛} n 项任务需要处理，task 𝑇𝑖 &#x3D; &lt; 𝐷𝑇 (𝑇𝑖), 𝑃 (𝑇𝑖), RT(𝑇𝑖), 𝐿(𝑇𝑖), 𝐷(𝑇𝑖) &gt;<br>–其中（前三个是 𝑇𝑖 任务的三个子任务）：<br>（i）𝐷T(𝑇𝑖) 是数据传输时间，UAV 悬停在 SD 上方，接收 𝑇𝑖 的数据<br>（ii）𝑃 (𝑇𝑖) 是任务处理时间，𝑈𝑗 could hover near the SD or fly to another location<br>（iii）RT(𝑇𝑖) 是结果传输时间，UAV 悬停在 SD 上方，发送给结果给 𝑇𝑖<br>（iv）𝐿(𝑇𝑖) 是 𝑇𝑖 位置<br>（v）𝐷(𝑇𝑖) 截止时间（guarantee the data freshness —— 数据的时效性）</p>
+<li><p>假设一个阶段有 $\mathbb{T} &#x3D; {T_1, \dots, T_n}$ 共 $n$ 项任务需要处理，task $T_i &#x3D; \langle DT(T_i), P(T_i), RT(T_i), L(T_i), D(T_i) \rangle$</p>
 </li>
-<li><p>任务分配：An assignment 𝑎𝑖 of 𝑇𝑖 is represented by a 7-tuple &lt; 𝑈 (𝑇𝑖), 𝑆 (𝑇𝑖,1), 𝐶 (𝑇𝑖,1), 𝑆 (𝑇𝑖,2), 𝐶 (𝑇𝑖,2), 𝑆 (𝑇𝑖,3), 𝐶 (𝑇𝑖,3) &gt; （𝑈 (𝑇𝑖) 指的是分配 𝑇𝑖 任务的 UAV，𝑆 是子任务的开始时间，𝐶 是子任务完成时间）</p>
+<li><p>其中（前三个是 $T_i$ 任务的三个子任务）：<br>（i）$DT(T_i)$ 是数据传输时间，UAV 悬停在 SD 上方，接收 $T_i$ 的数据。<br>（ii）$P(T_i)$ 是任务处理时间，$U_j$ could hover near the SD or fly to another location。<br>（iii）$RT(T_i)$ 是结果传输时间，UAV 悬停在 SD 上方，发送结果给 $T_i$。<br>（iv）$L(T_i)$ 是 $T_i$ 位置。<br>（v）$D(T_i)$ 截止时间（guarantee the data freshness —— 数据的时效性）。</p>
 </li>
-<li><p>无人机分配：An assignment 𝜋𝑗 of 𝑈𝑗 can be represented by a sub-task sequence 𝜋𝑗 &#x3D; (𝜋𝑗,1, 𝜋𝑗,2, … , 𝜋𝑗,𝐾𝑗) , where 𝜋𝑗,𝑘 (𝑘 &#x3D; 1, … , 𝐾𝑗) could be a sub-task or a swapping-battery task 𝑇𝑠𝑤𝑎𝑝.𝐾𝑗 is the number of sub-tasks (including swapping-battery tasks) assigned to 𝑈𝑗；𝐿𝑠(𝜋𝑗,𝑘) and 𝐿𝑐 (𝜋𝑗,𝑘) as the locations at the times of 𝑆 (𝜋𝑗,𝑘) and 𝐶 (𝜋𝑗,𝑘)</p>
+<li><p>指定任务分配给哪一架 UAV 以及起止时间：An assignment $a_i$ of $T_i$ is represented by a 7-tuple $\langle U(T_i), S(T_{i,1}), C(T_{i,1}), S(T_{i,2}), C(T_{i,2}), S(T_{i,3}), C(T_{i,3}) \rangle$（$U(T_i)$ 指的是分配 $T_i$ 任务的 UAV，$S$ 是子任务的开始时间，$C$ 是子任务完成时间）。</p>
 </li>
-<li><p>UAV 有两种：reserved UAVs and on-demand UAVs<br>（i）reserved UAVs：computation resources with long-term contracts with lower price 𝛼 per time unit $\varepsilon$ （算力价格便宜）<br>（ii）on-demand UAVs：temporary resources with higher unit price 𝛽 per time unit 𝜀 （算力价格贵）</p>
-</li>
-<li><p>𝔹 代表基站的集合（两种 UAV 均是部署在基站且 UAV 可以在任意的一个基站更换电池，假设花费一个时间单位 𝜀）</p>
+<li><p>无人机分配的子任务序列：An assignment $\pi_j$ of $U_j$ can be represented by a sub-task sequence $\pi_j &#x3D; (\pi_{j,1}, \pi_{j,2}, \dots, \pi_{j,K_j})$，where $\pi_{j,k}$ $(k &#x3D; 1, \dots, K_j)$ could be a sub-task or a swapping-battery task $T_{swap}$。$K_j$ is the number of sub-tasks (including swapping-battery tasks) assigned to $U_j$；$L_s(\pi_{j,k})$ and $L_c(\pi_{j,k})$ as the locations at the times of $S(\pi_{j,k})$ and $C(\pi_{j,k})$。</p>
 </li>
 </ul>
-<p>提出的方法（A bi-criterion ant colony optimization (bi-ACO) framework）：</p>
+</details>
+
+<hr>
+<details>
+<summary><b>提出的方法（bi-ACO framework）</b></summary>
+
 <ul>
-<li>引入目标不同的多个异构蚁群，每个蚁群维护 5 对信息素矩阵为构建可行解</li>
-<li>三个重要部分组成：<br>（i） feasible solution generation method (FSGM) to construct a feasible solution<br>（ii）solution division method (SDM) to improve obtained solutions of good quality<br>（iii） pheromone update method (PUM) to updates pheromone matrices by pheromone evaporation operation（信息素蒸发） and pheromone enhancement operation based on the preferences of colonies.</li>
+<li><p>Colony Settings：引入目标不同的多个异构蚁群（$N$ 群），每一只蚂蚁会根据信息素矩阵和启发值决定 task offloading，包含任务选择和任务插入，每个蚁群维护 5 对信息素矩阵为构建可行解，其中 one pair is used for computing the probability of selecting a task（任务选择） and the other four pairs are used to determine the insertion position of a task（任务插入；其中每一对中的两个矩阵分别对应成本和完成时间两个目标；任务插入需要四个矩阵是因为任务插入方法有四种情况，给定一个插入位置，左右距离最近的传输任务可以是 first-stage subtask 或者 third-stage subtask）</p>
+</li>
+<li><p>Feasible Solution Generation Method：<br>（i）蚂蚁生成任务并尝试给所有 reserved UAV 分配任务：<br>（ii）若是将所有 reserved UAV 分配完后，仍有任务未被分配，使用 on-demand UAV 执行剩余任务<br>（iii）蚂蚁改进已有的 solution，通过交换一些 UAV 的任务</p>
+</li>
+<li><p>三个重要部分组成：<br>（i）feasible solution generation method (FSGM) to construct a feasible solution。<br>（ii）solution division method (SDM) to improve obtained solutions of good quality。<br>（iii）pheromone update method (PUM) to update pheromone matrices by pheromone evaporation operation（信息素蒸发）and pheromone enhancement operation based on the preferences of colonies。</p>
+</li>
 </ul>
-<p>算法实现：</p>
+</details>
+
+<hr>
+<details>
+<summary><b>算法实现</b></summary>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Algorithm 1: bi-ACO Framework</span><br><span class="line"></span><br><span class="line"> 1: Initialize N ant colonies CO_1, CO_2, ..., CO_N;</span><br><span class="line"> 2: Initialize pheromone matrices for N colonies;</span><br><span class="line"> 3: PF* ← ∅;  /* PF* is the Pareto Front */</span><br><span class="line"> 4: while Termination condition is not met do</span><br><span class="line"> 5:     for p = 1, 2, ..., N do</span><br><span class="line"> 6:         for q = 1, 2, ..., n_a do</span><br><span class="line"> 7:             Call Feasible Solution Generation Method to generate</span><br><span class="line">                a feasible solution S1 based on pheromone matrices</span><br><span class="line">                and heuristic values;</span><br><span class="line"> 8:             Update PF* by S1;</span><br><span class="line"> 9:             if S1 ∈ PF* then</span><br><span class="line">10:                 Perform Solution Division Method on S1 to generate</span><br><span class="line">                    a promising solution S2;</span><br><span class="line">11:                 if S2 is feasible then</span><br><span class="line">12:                     Update PF* by S2;</span><br><span class="line">13:     Call Pheromone Update Method to update pheromone matrices</span><br><span class="line">         of all colonies according to PF*;</span><br><span class="line">14: return PF*.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>第三行维护了一个全局的 Pareto set PF* 保存非支配解</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">Algorithm 2: Feasible Solution Generation Method</span><br><span class="line">FSGM(p, q).</span><br><span class="line"></span><br><span class="line"> 1: W &lt;- T; /* W contains all tasks initially */</span><br><span class="line"> 2: A &lt;- empty; Pi &lt;- empty; U&#x27; &lt;- empty;</span><br><span class="line"> 3: for all Uj in U do</span><br><span class="line"> 4:     Aj &lt;- empty; /* Aj contains assignments of tasks selected by Uj */</span><br><span class="line"> 5:     pi_j &lt;- &lt;&gt;; /* Sub-task sequence is initially empty */</span><br><span class="line"> 6:     T &lt;- T0; /* T is the previous selected task */</span><br><span class="line"> 7:     B &lt;- 1; /* B is the boundary parameter restricting the task insertion */</span><br><span class="line"> 8:     while W is not empty do</span><br><span class="line"> 9:         Wj &lt;- W; /* Wj preserves candidate tasks */</span><br><span class="line">10:         for R = 1 to Rmax do</span><br><span class="line">11:             Compute P(p, q, T, T&#x27;) for all T&#x27; in Wj;</span><br><span class="line">12:             Ti &lt;- RWS(P(p, q, T, T&#x27;)|T&#x27;inWj); /* RWS is Roulette Wheel Selection */</span><br><span class="line">13:             &lt;pi&#x27;j, A&#x27;j&gt; &lt;- TIM(Aj, pi_j, Ti, B, p, q); /* TIM is Task Insertion Method */</span><br><span class="line">14:             if &lt;pi&#x27;j, A&#x27;j&gt; is feasible then</span><br><span class="line">15:                 pi_j &lt;- pi&#x27;j;</span><br><span class="line">16:                 Aj &lt;- A&#x27;j;</span><br><span class="line">17:                 W &lt;- W - &#123;Ti&#125;;</span><br><span class="line">18:                 T &lt;- Ti;</span><br><span class="line">19:                 break;</span><br><span class="line">20:             else</span><br><span class="line">21:                 Wj &lt;- Wj - &#123;Ti&#125;;</span><br><span class="line">22:             end if</span><br><span class="line">23:         end for</span><br><span class="line">24:         B &lt;- BUM(pi_j, B); /* BUM is Boundary Update Method */</span><br><span class="line">25:         if B = -1 then</span><br><span class="line">26:             break;</span><br><span class="line">27:         end if</span><br><span class="line">28:         break at the probability of (theta_b * (p-1)) / (N-1);</span><br><span class="line">29:     end while</span><br><span class="line">30:     A &lt;- A + Aj;</span><br><span class="line">31:     Pi &lt;- Pi + &#123;pi_j&#125;;</span><br><span class="line">32: end for</span><br><span class="line">/* On-demand UAVs are employed for the unscheduled tasks */</span><br><span class="line">33: while W is not empty do</span><br><span class="line">34:     U&#x27; &lt;- U&#x27; + &#123;U&#125;; /* Employ an on-demand UAV U */</span><br><span class="line">35:     Generate task assignment set A&#x27; and UAV assignment pi&#x27; in the similar manner as steps 8-25;</span><br><span class="line">36:     A &lt;- A + A&#x27;;</span><br><span class="line">37:     Pi &lt;- Pi + &#123;pi&#x27;&#125;;</span><br><span class="line">38: end while</span><br><span class="line">39: for all Uj in U and all Uj&#x27; in U&#x27; do</span><br><span class="line">40:     if L^0(Uj) = L^0(Uj&#x27;) then</span><br><span class="line">41:         if C(pi_j, kappa_j) &lt; C(pi_j&#x27;, kappa_j&#x27;) then</span><br><span class="line">42:             Swap the task and UAV assignments of Uj and Uj&#x27;;</span><br><span class="line">43:         end if</span><br><span class="line">44:     end if</span><br><span class="line">45: end for</span><br><span class="line">46: return &lt;A, Pi&gt;.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>该算法是为了生成一组分配任务的方式，先通过使用一对选择信息素矩阵和赌轮盘的方式选择出下一个插入任务 $T_i$，再通过四对插入信息素矩阵，确定选定任务的插入顺序</li>
+<li>TIM（任务插入方法）：inserts task into appropriate position（对应算法三）</li>
+<li>BUM（边界更新方法）：shrinks insertion position boundary in order to improve efficiency（对应算法五）</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">Algorithm 3: Task Insertion Method</span><br><span class="line">TIM(A_j, pi_j, T_i, B, p, q).</span><br><span class="line"></span><br><span class="line"> 1: pi&#x27;_j &lt;- pi_j; /* pi&#x27;_j is a copy of pi_j */</span><br><span class="line"> 2: if A_j = empty then</span><br><span class="line"> 3:     pi&#x27;_j &lt;- (T_i,1, T_i,2, T_i,3);</span><br><span class="line"> 4:     Check the feasibility of pi&#x27;_j on the energy constraint and</span><br><span class="line">        insert T_swap at appropriate positions by Swapping Task Insertion Method;</span><br><span class="line"> 5:     Compute the task assignments A&#x27;_j for pi&#x27;_j;</span><br><span class="line"> 6:     if A&#x27;_j and pi&#x27;_j are feasible then</span><br><span class="line"> 7:         return &lt;pi&#x27;_j, A&#x27;_j&gt;;</span><br><span class="line"> 8: end if</span><br><span class="line"> 9: Insert T_i,1 at the position B of pi&#x27;_j;</span><br><span class="line">10: Insert T_i,2 at the position B+1 of pi&#x27;_j;</span><br><span class="line">11: Delete all T_swap in pi&#x27;_j starting from the position B+2 to the end;</span><br><span class="line">    /* Suppose pi&#x27;_j = (pi&#x27;_j,1, pi&#x27;_j,2, ..., pi&#x27;_j,K_j) */</span><br><span class="line">12: B_set &lt;- empty; /* B_set deposits candidate insertion positions</span><br><span class="line">    and their pheromone intensities */</span><br><span class="line">13: for b = B+2 to K_j+1 do</span><br><span class="line">14:     if pi&#x27;_j,b is a 2nd stage sub-task then</span><br><span class="line">15:         Continue;</span><br><span class="line">16:     end if</span><br><span class="line">17:     P_ib &lt;- PIM(pi&#x27;_j, b, T_i, p, q); /* PIM is Pheromone Intensity Method */</span><br><span class="line">18:     B_set &lt;- B_set + &#123;&lt;b, P_ib&gt;&#125;;</span><br><span class="line">19: end for</span><br><span class="line">20: Sort all items in B_set in descending order of pheromone intensities;</span><br><span class="line">21: Remove all items from B_set except the top five items with the highest intensities;</span><br><span class="line">22: A*_j &lt;- empty;</span><br><span class="line">23: pi*_j &lt;- ();</span><br><span class="line">24: CT* &lt;- +inf;</span><br><span class="line">25: for &lt;b, P_ib&gt; in B_set do</span><br><span class="line">26:     pi&#x27;&#x27;_j &lt;- pi&#x27;_j; /* pi&#x27;&#x27;_j is a copy of pi&#x27;_j */</span><br><span class="line">27:     Insert T_i,3 at the position b of pi&#x27;&#x27;_j;</span><br><span class="line">28:     Check the feasibility of pi&#x27;&#x27;_j on the energy constraint and</span><br><span class="line">        insert T_swap at appropriate positions by Swapping Task Insertion Method;</span><br><span class="line">29:     Compute the task assignments A&#x27;&#x27;_j for pi&#x27;&#x27;_j;</span><br><span class="line">30:     if A&#x27;&#x27;_j and pi&#x27;&#x27;_j are feasible then</span><br><span class="line">31:         Compute the completion time CT of A&#x27;&#x27;_j;</span><br><span class="line">32:         if CT &lt; CT* then</span><br><span class="line">33:             A*_j &lt;- A&#x27;&#x27;_j;</span><br><span class="line">34:             pi*_j &lt;- pi&#x27;&#x27;_j;</span><br><span class="line">35:             CT* &lt;- CT;</span><br><span class="line">36:         end if</span><br><span class="line">37:     end if</span><br><span class="line">38: end for</span><br><span class="line">39: if CT* = +inf then</span><br><span class="line">40:     return NULL;</span><br><span class="line">41: end if</span><br><span class="line">42: return &lt;pi*_j, A*_j&gt;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>该算法包含 STIM（Swapping Task Insertion Method）和PIM（Pheromone Intensity Method —— 用于计算插入位置的信息素强度）</li>
+<li>STIM：核心是检查 UAV 在执行完一个子任务后剩余的能量是否支持其完成最近的充电任务；若是不支持，则充电任务需要 insert 在该子任务之前（要保证剩余的能量可以支持 UAV 飞行至最近的 $T_{swap}$ 位置）</li>
+</ul>
+<p><strong>Algorithm 4: Pheromone Intensity Method</strong> $\text{PIM}(\pi_j, b, T_i, p, q)$</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> 1: Pi ← 0</span><br><span class="line"> 2: h₁ ← -1</span><br><span class="line"> 3: h₂ ← -1</span><br><span class="line"> 4: i₁ ← 0</span><br><span class="line"> 5: i₂ ← n+1</span><br><span class="line"> 6: for b₁ = b-1 down to 1 do</span><br><span class="line"> 7:     if π_&#123;j,b₁&#125; is a 1ˢᵗ stage sub-task then</span><br><span class="line"> 8:         h₁ ← 1</span><br><span class="line"> 9:         i₁ ← task index of π_&#123;j,b₁&#125;</span><br><span class="line">10:         break</span><br><span class="line">11:     if π_&#123;j,b₁&#125; is a 3ʳᵈ stage sub-task then</span><br><span class="line">12:         h₁ ← 3</span><br><span class="line">13:         i₁ ← task index of π_&#123;j,b₁&#125;</span><br><span class="line">14:         break</span><br><span class="line">15: for b₂ = b to Kⱼ do</span><br><span class="line">16:     if π_&#123;j,b₂&#125; is a 1ˢᵗ stage sub-task then</span><br><span class="line">17:         h₂ ← 1</span><br><span class="line">18:         i₂ ← task index of π_&#123;j,b₂&#125;</span><br><span class="line">19:         break</span><br><span class="line">20:     if π_&#123;j,b₂&#125; is a 3ʳᵈ stage sub-task then</span><br><span class="line">21:         h₂ ← 3</span><br><span class="line">22:         i₂ ← task index of π_&#123;j,b₂&#125;</span><br><span class="line">23:         break</span><br><span class="line">24: if i₂ = n+1 then</span><br><span class="line">25:     Pi ← +∞</span><br><span class="line">26: else if h₁ = 1 and h₂ = 1 then</span><br><span class="line">27:     Pi ← (χ¹_&#123;i₁,i&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂¹_&#123;i₁,i&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">              + (χ²_&#123;i,i₂&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂²_&#123;i,i₂&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">28: else if h₁ = 1 and h₂ = 3 then</span><br><span class="line">29:     Pi ← (χ¹_&#123;i₁,i&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂¹_&#123;i₁,i&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">              + (χ⁴_&#123;i,i₂&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂⁴_&#123;i,i₂&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">30: else if h₁ = 3 and h₂ = 1 then</span><br><span class="line">31:     Pi ← (χ³_&#123;i₁,i&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂³_&#123;i₁,i&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">              + (χ²_&#123;i,i₂&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂²_&#123;i,i₂&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">32: else if h₁ = 3 and h₂ = 3 then</span><br><span class="line">33:     Pi ← (χ³_&#123;i₁,i&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂³_&#123;i₁,i&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">              + (χ⁴_&#123;i,i₂&#125;)^&#123;λ_&#123;p,q&#125;&#125; · (χ̂⁴_&#123;i,i₂&#125;)^&#123;(1-λ_&#123;p,q&#125;)&#125;</span><br><span class="line">34: return Pi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>该算法的核心思路：根据之前的约束条件选定第三阶段子任务的候选插入位置 b ；判断 b 前后相邻传输子任务的阶段类型（包含4种情况），依据蚁群算法中类似的公式，通过四对信息素矩阵（成本和时间），计算出候选插入位置的信息素强度 </li>
+<li>$h_1, h_2$：插入位置前后的子任务阶段类型（1&#x3D;DT 数据传输, 3&#x3D;RT 结果回传）</li>
+<li>$i_1, i_2$：前后子任务所属的任务编号</li>
+<li>$\chi^1$~$\chi^4$：<strong>成本</strong>目标对应的四对信息素矩阵</li>
+<li>$\widehat{\chi}^1$~$\widehat{\chi}^4$：<strong>完成时间</strong>目标对应的四对信息素矩阵</li>
+<li>$\lambda_{p,q}$：双目标权重系数，由种群 index $p$ 和个体 index $q$ 决定</li>
+<li>其中 $\lambda_{p,q}$ 的计算公式为：<br>$$\lambda_{p,q} &#x3D; \frac{p-1}{N+1} + \frac{2(q-1)}{N^2-1}$$<blockquote>
+<ul>
+<li>$N$：种群总数</li>
+<li>$p$：种群 index（$p &#x3D; 1, 2, \dots, N$）</li>
+<li>$q$：种群内个体 index（$q &#x3D; 1, 2, \dots, n_a$）</li>
+<li>$\lambda_{p,q} \in [0, 1]$，$p$ 项主导种群间差异（粗调），$q$ 项提供种群内差异（微调）</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p><strong>Algorithm 5: Boundary Update Method</strong> $\text{BUM}(\pi, B)$</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1: B&#x27; ← B + 1</span><br><span class="line">2: while π_&#123;j,B&#x27;&#125; is T_swap or a 2ⁿᵈ stage sub-task do</span><br><span class="line">3:     B&#x27; ← B&#x27; + 1</span><br><span class="line">4: if B&#x27; &gt; K_j + 1 then</span><br><span class="line">5:     return -1</span><br><span class="line">6: return B&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>BUM 在 Algorithm 2 第 24 行调用，用于收缩任务插入的边界</li>
+<li>跳过换电任务 $T_{swap}$ 和第 2 阶段（处理）子任务，将边界移到下一个有效的第 1&#x2F;3 阶段子任务位置</li>
+<li>如果没有可用的插入位置（$B’ &gt; K_j+1$），返回 -1 表示该 UAV 不能再插入新任务</li>
+</ul>
+<p><strong>Algorithm 6: Solution Division Method</strong> $\text{SDM}(\mathbb{S}^*)$</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> 1: S ← S*;  /* operate on a copy of the input schedule */</span><br><span class="line"> 2: U_j ← arg max&#123;C(π_j, K_j) | U_j ∈ U ∪ U&#x27;&#125;;  /* busiest UAV */</span><br><span class="line"> 3: T&#x27; ← ∅;</span><br><span class="line"> 4: for all a_i ∈ A_j do</span><br><span class="line"> 5:     Put T_i into T&#x27; at a 50% probability;</span><br><span class="line"> 6: if |A_j| = |T&#x27;| or |T&#x27;| = 0 then</span><br><span class="line"> 7:     return NULL;</span><br><span class="line"> 8: Remove all T_swap in π_j;</span><br><span class="line"> 9: Select an idle UAV U_j&#x27;, where reserved one is preferred;</span><br><span class="line">10: if U_j&#x27; is an on-demand UAV then</span><br><span class="line">11:     U&#x27; ← U&#x27; + &#123;U_j&#x27;&#125;;</span><br><span class="line">12: π_j&#x27; ← ();  /* sub-task sequence of U_j&#x27; */</span><br><span class="line">    /* Suppose π_j = (π_&#123;j,1&#125;, ..., π_&#123;j,K_j&#125;) */</span><br><span class="line">13: for k = 1 to K_j do</span><br><span class="line">14:     if π_&#123;j,k&#125; is the sub-task of a task in T&#x27; then</span><br><span class="line">15:         Add π_&#123;j,k&#125; to the end of π_j&#x27;;</span><br><span class="line">16: for all T_i ∈ T&#x27; do</span><br><span class="line">17:     Remove sub-tasks of T_i from π_j;</span><br><span class="line">18: Add T_swap to π_j and π_j&#x27; at appropriate positions by STIM;</span><br><span class="line">19: Compute new assignments of tasks in π_j and π_j&#x27;;</span><br><span class="line">20: for all U_j1 ∈ U and all U_j2 ∈ U&#x27; do</span><br><span class="line">21:     if L^0(U_j1) = L^0(U_j2) then</span><br><span class="line">22:         if C(π_j1, K_j1) &lt; C(π_j2, K_j2) then</span><br><span class="line">23:             Swap the task and UAV assignments of U_j1 and U_j2;</span><br><span class="line">24: Update S accordingly;</span><br><span class="line">25: return S;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>SDM 在 Algorithm 1 第 10 行调用，对进入帕累托前沿的解进行局部优化</li>
+<li>核心思路：找到负载最重的 UAV（第 2 行），将其部分任务（50%概率）拆给另一架空闲 UAV</li>
+<li>第 6-7 行：如果全拆或一个没拆（极端情况），返回 NULL 放弃</li>
+<li>第 20-23 行：末尾交换优化——相同基站的 reserved&#x2F;on-demand UAV，快的换给便宜的</li>
+</ul>
+<p><strong>Algorithm 7: Pheromone Enhancement Method</strong> $\text{PEM}(CO_p)$</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"> 1: for all S = &lt;A, Π&gt; ∈ PF_p do</span><br><span class="line">       /* Suppose S is ranked as the r-th solution in PF_p */</span><br><span class="line"> 2:     μ ← (p-1)/N + r/|PF_p|;</span><br><span class="line"> 3:     for all π_j ∈ Π do</span><br><span class="line">           /* Suppose there are N tasks assigned to U_j */</span><br><span class="line"> 4:         Obtain task sequence T_&#123;i1&#125;, ..., T_&#123;iN&#125; from π_j</span><br><span class="line">             satisfying S(T_&#123;i1,1&#125;) &lt; ... &lt; S(T_&#123;iN,1&#125;);</span><br><span class="line"> 5:         i ← 0;</span><br><span class="line">           /* Increase selection pheromone */</span><br><span class="line"> 6:         for i&#x27; = i1, ..., iN do</span><br><span class="line"> 7:             τ_&#123;i,i&#x27;&#125; ← τ_&#123;i,i&#x27;&#125; + Δτ × μ;</span><br><span class="line"> 8:             \widehat&#123;\tau&#125;_&#123;i,i&#x27;&#125; ← \widehat&#123;\tau&#125;_&#123;i,i&#x27;&#125; + Δ\tau \times (1-\mu);</span><br><span class="line"> 9:             i ← i&#x27;;</span><br><span class="line">           /* Suppose π_j = (π_&#123;j,1&#125;, ..., π_&#123;j,K_j&#125;) */</span><br><span class="line">10:         for k = 1, ..., K_j do</span><br><span class="line">11:             if π_&#123;j,k&#125; is not a 3rd stage sub-task then</span><br><span class="line">12:                 continue;</span><br><span class="line">13:             Set i to be the task index of π_&#123;j,k&#125;;</span><br><span class="line">14:             i1 ← 0; i2 ← n+1;</span><br><span class="line">15:             h1 ← -1; h2 ← -1;</span><br><span class="line">16:             for k1 = k-1 down to 1 do</span><br><span class="line">17:                 if π_&#123;j,k1&#125; is a 1st stage sub-task then</span><br><span class="line">18:                     h1 ← 1;</span><br><span class="line">19:                     Set i1 to be the task index of π_&#123;j,k1&#125;;</span><br><span class="line">20:                     break;</span><br><span class="line">21:                 if π_&#123;j,k1&#125; is a 3rd stage sub-task then</span><br><span class="line">22:                     h1 ← 3;</span><br><span class="line">23:                     Set i1 to be the task index of π_&#123;j,k1&#125;;</span><br><span class="line">24:                     break;</span><br><span class="line">25:             for k2 = k+1 to K_j do</span><br><span class="line">26:                 if π_&#123;j,k2&#125; is a 1st stage sub-task then</span><br><span class="line">27:                     h2 ← 1;</span><br><span class="line">28:                     Set i2 to be the task index of π_&#123;j,k2&#125;;</span><br><span class="line">29:                     break;</span><br><span class="line">30:                 if π_&#123;j,k2&#125; is a 3rd stage sub-task then</span><br><span class="line">31:                     h2 ← 3;</span><br><span class="line">32:                     Set i2 to be the task index of π_&#123;j,k2&#125;;</span><br><span class="line">33:                     break;</span><br><span class="line">           /* Increase insertion pheromone */</span><br><span class="line">34:             if h1 = 1 then</span><br><span class="line">35:                 χ^1_&#123;i1,i&#125; ← χ^1_&#123;i1,i&#125; + Δτ × μ;</span><br><span class="line">36:                 χ̂¹_&#123;i1,i&#125; ← χ̂¹_&#123;i1,i&#125; + Δτ × (1-μ);</span><br><span class="line">37:             else if h1 = 3 then</span><br><span class="line">38:                 χ^3_&#123;i1,i&#125; ← χ^3_&#123;i1,i&#125; + Δτ × μ;</span><br><span class="line">39:                 χ̂³_&#123;i1,i&#125; ← χ̂³_&#123;i1,i&#125; + Δτ × (1-μ);</span><br><span class="line">40:             if i2 = n+1 then</span><br><span class="line">41:                 continue;</span><br><span class="line">42:             if h2 = 1 then</span><br><span class="line">43:                 χ^2_&#123;i,i2&#125; ← χ^2_&#123;i,i2&#125; + Δτ × μ;</span><br><span class="line">44:                 χ̂²_&#123;i,i2&#125; ← χ̂²_&#123;i,i2&#125; + Δτ × (1-μ);</span><br><span class="line">45:             else if h2 = 3 then</span><br><span class="line">46:                 χ^4_&#123;i,i2&#125; ← χ^4_&#123;i,i2&#125; + Δτ × μ;</span><br><span class="line">47:                 χ̂⁴_&#123;i,i2&#125; ← χ̂⁴_&#123;i,i2&#125; + Δτ × (1-μ);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>PEM 在每轮迭代结束时调用（Algorithm 1 第 13 行），根据种群偏好更新信息素</li>
+<li>μ &#x3D; (p-1)&#x2F;N + r&#x2F;|PF_p|：种群 p 越靠后（越大），μ 越接近 1 → 偏向成本目标的信息素增强</li>
+<li>每个好解会让其经过的路径上的信息素增加 Δτ × μ（成本）和 Δτ × (1-μ)（时间）</li>
+<li>6-9 行：更新<strong>任务选择</strong>信息素（$\tau$ &#x2F; $\widehat{\tau}$）</li>
+<li>16-47 行：跟 PIM 逻辑一致，找到插入位置前后邻居的阶段类型，更新对应的<strong>任务插入</strong>信息素（$\chi^1$<del>$\chi^4$ &#x2F; $\widehat{\chi}^1$</del>$\widehat{\chi}^4$）</li>
+</ul>
+</details>
+
 <hr>
 <details>
 <summary><b>符号表</b></summary>
@@ -152,8 +273,8 @@
 <table>
 <thead>
 <tr>
-<th>Notation</th>
-<th>Definition</th>
+<th>符号</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -306,27 +427,21 @@
 </tr>
 </tbody></table>
 </details>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://ssijiof.github.io/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/" data-id="cuidfxVLL-6whq-QvjIpwJ8QD" data-title="Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://ssijiof.github.io/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/" data-id="cuidszl9iVtTaPiR7slts3ud-" data-title="Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
-  
-    <a href="/2026/07/21/github/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          github
-        
-      </div>
-    </a>
   
   
     <a href="/2026/07/11/python%E8%AF%AD%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
@@ -351,7 +466,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
     </div>
   </div>
 
@@ -361,7 +476,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/UAV/" style="font-size: 10px;">UAV</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
+      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
     </div>
   </div>
 
@@ -381,10 +496,6 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2026/07/21/github/">github</a>
-          </li>
         
           <li>
             <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/">Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems</a>
