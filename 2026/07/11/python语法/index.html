@@ -14,7 +14,7 @@
 <meta property="og:description" content="一、元组  1. 元组中的元素无法修改2. 元组可以作为字典中的键，而列表不可以3. 使用（ ）创建元组，使用下标访问元组中的元素4. 元组可以作为，list 和 dictionary 的元素1d &#x3D; &#123;(1, 2): &quot;点A&quot;&#125;      二、for 循环  1. 使用 range()123range(stop)              # 0 到 s">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-11T01:46:57.000Z">
-<meta property="article:modified_time" content="2026-07-21T03:42:26.124Z">
+<meta property="article:modified_time" content="2026-07-28T06:48:25.384Z">
 <meta property="article:author" content="ssijiof">
 <meta property="article:tag" content="grammar">
 <meta property="article:tag" content="skills">
@@ -140,9 +140,15 @@
 <h3 id="1-空列表"><a href="#1-空列表" class="headerlink" title="1. 空列表"></a>1. 空列表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="literal">None</span>] * n    <span class="comment"># n 指的是长度</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="2-使用-append（列表可以动态修改）"><a href="#2-使用-append（列表可以动态修改）" class="headerlink" title="2. 使用 append（列表可以动态修改）"></a>2. 使用 append（列表可以动态修改）</h3><p><code>append</code> 可以在列表末尾添加一个元素。</p>
-<p>注：直接修改原列表，返回 <code>None</code>。</p>
+<ul>
+<li>直接修改原列表，返回 <code>None</code>。</li>
+</ul>
 <h3 id="3-列表的拷贝"><a href="#3-列表的拷贝" class="headerlink" title="3. 列表的拷贝"></a>3. 列表的拷贝</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p = [<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line">copy = p[:]          <span class="comment"># 新列表，内容和 p 一样</span></span><br><span class="line"></span><br><span class="line">copy[<span class="number">1</span>] = <span class="number">99</span></span><br><span class="line"><span class="built_in">print</span>(p)             <span class="comment"># [0, 3, 1, 5, 2, 4]  ← 没变</span></span><br><span class="line"><span class="built_in">print</span>(copy)          <span class="comment"># [0, 99, 1, 5, 2, 4] ← 只改了副本</span></span><br></pre></td></tr></table></figure>
 
+<h3 id="4-插入元素"><a href="#4-插入元素" class="headerlink" title="4. 插入元素"></a>4. 插入元素</h3><ul>
+<li>在指定位置插入一个元素，原位置及后面的元素往后移</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># list.insert(index, element)</span></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">a.insert(<span class="number">1</span>, <span class="number">99</span>)    <span class="comment"># 在索引 1 处插入 99</span></span><br><span class="line"><span class="built_in">print</span>(a)           <span class="comment"># [1, 99, 2, 3]</span></span><br></pre></td></tr></table></figure>
 
 </details>
 
@@ -169,7 +175,7 @@
 <summary><b>六、try/except </b></summary>
 
 <h3 id="1-语法"><a href="#1-语法" class="headerlink" title="1.语法"></a>1.语法</h3><p>try:<br>    # 尝试执行可能会出错的操作<br>    危险操作()<br>except Exception:<br>    # 如果出错（任何类型），就执行这里<br>    补救措施()<br>注：<br>except 后面分具体的异常类型；Exception 接收所有错误<br>except ValueError:       # 只抓 ValueError<br>except ZeroDivisionError: # 只抓除零错误<br>except FileNotFoundError: # 只抓文件不存在</p>
-
+</details>
       
     </div>
     <footer class="article-footer">
@@ -197,7 +203,7 @@
   
     <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments</div>
+      <div class="article-nav-title">A Two-Stage Strategy for UAV-Enabled Wireless Power Transfer in Un-known Environments</div>
     </a>
   
 </nav>
@@ -217,7 +223,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FL/" rel="tag">FL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Federated-Learning/" rel="tag">Federated-Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forest-Fire/" rel="tag">Forest-Fire</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HFL/" rel="tag">HFL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV-Swarm/" rel="tag">UAV-Swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
     </div>
   </div>
 
@@ -227,7 +233,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
+      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/FL/" style="font-size: 10px;">FL</a> <a href="/tags/Federated-Learning/" style="font-size: 10px;">Federated-Learning</a> <a href="/tags/Forest-Fire/" style="font-size: 10px;">Forest-Fire</a> <a href="/tags/HFL/" style="font-size: 10px;">HFL</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/UAV-Swarm/" style="font-size: 10px;">UAV-Swarm</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
     </div>
   </div>
 
@@ -249,6 +255,14 @@
       <ul>
         
           <li>
+            <a href="/2026/07/29/Exploring-the-Robustness-Hierarchical-Federated-Learning-Framework-for-Object-Detection-of-UAV-Cluster/">Exploring the Robustness: Hierarchical Federated Learning Framework for Object Detection of UAV Cluster</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/25/Two-Tier-Submodel-Partition-Framework-for-Enhancing-UAV-Swarm-Robustness-in-Forest-Fire-Detection/">Two-Tier Submodel Partition Framework for Enhancing UAV Swarm Robustness in Forest Fire Detection</a>
+          </li>
+        
+          <li>
             <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/">Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems</a>
           </li>
         
@@ -257,7 +271,7 @@
           </li>
         
           <li>
-            <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/">ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments</a>
+            <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/">A Two-Stage Strategy for UAV-Enabled Wireless Power Transfer in Un-known Environments</a>
           </li>
         
       </ul>

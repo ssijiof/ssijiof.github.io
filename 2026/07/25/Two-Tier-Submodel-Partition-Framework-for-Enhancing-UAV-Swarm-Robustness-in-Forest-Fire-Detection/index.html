@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Two-Tier Submodel Partition Framework for Enhancing UAV Swarm Robustness in Forest Fire Detection | paper and code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="备注：可以看一下论文 [6] [7] [13]；关注论文分析收敛性的方法 [33] [34] [35]    名词  1. FFD：Forest Fire Detection2. UAV-OD：UAV Object Detection3. Adam（自适应矩估计）：Adaptive Moment Estimation    论文提出的问题   本论文提出了四种新的方法：其中，TSPF 侧重于提高">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Two-Tier Submodel Partition Framework for Enhancing UAV Swarm Robustness in Forest Fire Detection">
+<meta property="og:url" content="https://ssijiof.github.io/2026/07/25/Two-Tier-Submodel-Partition-Framework-for-Enhancing-UAV-Swarm-Robustness-in-Forest-Fire-Detection/index.html">
+<meta property="og:site_name" content="paper and code">
+<meta property="og:description" content="备注：可以看一下论文 [6] [7] [13]；关注论文分析收敛性的方法 [33] [34] [35]    名词  1. FFD：Forest Fire Detection2. UAV-OD：UAV Object Detection3. Adam（自适应矩估计）：Adaptive Moment Estimation    论文提出的问题   本论文提出了四种新的方法：其中，TSPF 侧重于提高">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ssijiof.github.io/images/TSPF.png">
+<meta property="og:image" content="https://ssijiof.github.io/images/TSPF%E7%BB%84%E6%88%90.png">
+<meta property="og:image" content="https://ssijiof.github.io/images/%E7%BB%84%E5%86%85%E5%A4%87%E4%BB%BD%E6%9C%BA%E5%88%B6.png">
+<meta property="og:image" content="https://ssijiof.github.io/images/TFL%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://ssijiof.github.io/images/%E5%AD%90%E6%A8%A1%E5%9E%8BTFL.png">
+<meta property="article:published_time" content="2026-07-25T07:07:54.000Z">
+<meta property="article:modified_time" content="2026-08-04T02:32:59.661Z">
+<meta property="article:author" content="ssijiof">
+<meta property="article:tag" content="Federated-Learning">
+<meta property="article:tag" content="Forest-Fire">
+<meta property="article:tag" content="UAV-Swarm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssijiof.github.io/images/TSPF.png">
+  
+    <link rel="alternate" href="/atom.xml" title="paper and code" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">paper and code</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://ssijiof.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Two-Tier-Submodel-Partition-Framework-for-Enhancing-UAV-Swarm-Robustness-in-Forest-Fire-Detection" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/07/25/Two-Tier-Submodel-Partition-Framework-for-Enhancing-UAV-Swarm-Robustness-in-Forest-Fire-Detection/" class="article-date">
+  <time class="dt-published" datetime="2026-07-25T07:07:54.000Z" itemprop="datePublished">2026-07-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Two-Tier Submodel Partition Framework for Enhancing UAV Swarm Robustness in Forest Fire Detection
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>备注：可以看一下论文 [6] [7] [13]；关注论文分析收敛性的方法 [33] [34] [35]</p>
+</blockquote>
+<hr>
+<details>
+<summary><b>名词</b></summary>
+
+<h3 id="1-FFD：Forest-Fire-Detection"><a href="#1-FFD：Forest-Fire-Detection" class="headerlink" title="1. FFD：Forest Fire Detection"></a>1. FFD：Forest Fire Detection</h3><h3 id="2-UAV-OD：UAV-Object-Detection"><a href="#2-UAV-OD：UAV-Object-Detection" class="headerlink" title="2. UAV-OD：UAV Object Detection"></a>2. UAV-OD：UAV Object Detection</h3><h3 id="3-Adam（自适应矩估计）：Adaptive-Moment-Estimation"><a href="#3-Adam（自适应矩估计）：Adaptive-Moment-Estimation" class="headerlink" title="3. Adam（自适应矩估计）：Adaptive Moment Estimation"></a>3. Adam（自适应矩估计）：Adaptive Moment Estimation</h3></details>
+
+<hr>
+<details>
+<summary><b>论文提出的问题</b></summary>
+
+<ul>
+<li>本论文提出了四种新的方法：其中，TSPF 侧重于提高基于 FFD 任务训练的模型的泛化能力；a graph coloring method, an intragroup backup mechanism, and a Dynamic Server Selection 侧重于提高 UAVs 的鲁棒性</li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>问题场景</b></summary>
+
+<ul>
+<li>火灾环境的恶劣性和时变性分别对于 UAV 的鲁棒性、时效性和训练模型的普适性（火灾环境变换快）提出了新的挑战</li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>创新点</b></summary>
+
+
+<ul>
+<li><p>提出 TSPF 框架（ Two-tier Submodel Partition Framework）提高训练模型的泛化能力</p>
+</li>
+<li><p>采用 a graph coloring method, an intragroup backup mechanism, and a Dynamic Server Selection (DSS) mechanism 方法提高无人机群的鲁棒性（在有 UAV 被摧毁的情况下）</p>
+</li>
+<li><p><mark>论文假设 swarm 中的每一架 UAVs 是可信的（可不可以在场景中引入 malicious attackers or data stealers，提出一种保护机制，重新分组）</mark></p>
+</li>
+<li><p><mark>未来工作展望</mark>：<br>（i）更完善的数据备份机制：研究增量备份 + 选择性备份，只备份关键数据（如罕见的火灾形态标注），降低备份本身的通信&#x2F;计算开销<br>（ii）拓扑恢复 + 实时路径规划：多架 UAV 被毁后剩余 UAV 间连通性可能断裂，需要实时调整飞行路线重建通信链路，涉及动态拓扑重构<br>（iii）数据隐私保护（纠删码）：当前假设 UAV 可信，若引入恶意攻击者，可用纠删码替代全量备份——数据编码为 k 个碎片存到 k 架 UAV，任意 m 个碎片即可恢复（m &lt; k），单个攻击者无法恢复完整数据</p>
+</details></li>
+</ul>
+<hr>
+<details>
+<summary><b>基于问题建模</b></summary>
+
+<ul>
+<li><p>假设时间是离散的，时间 slot 是等长的</p>
+</li>
+<li><p>$D_{loc}^{(t)}(v_i)$（第 t 个时间 slot 无人机 vi 的 local 数据集）包含三个部分：</p>
+</li>
+</ul>
+<p>（i）$w_i^{(t)}$：vi 的本地模型参数</p>
+<p>（ii）$D_{\mathrm{bus}}^{(t)}(v_i) = \big\{ B^{(0)}(v_i), \dots, B^{(t)}(v_i) \big\}$：vi 视觉模块采集的图片和视频 local business data</p>
+<p>（iii）$\bigcup_{v_j \in G_k \setminus v_i} \Big\{ w_j^{(t)} \bigcup D_{\mathrm{bus}}^{(t)}(v_j) \Big\}$：和 vi 同一组的其他所有无人机的 local 模型参数和 business data</p>
+<ul>
+<li>$D^{(t)}(G_k) &#x3D; \bigcup_{v_i \in G_k} D_{\mathrm{loc}}^{(t)}(v_i)$：组服务器 every $t^*$ time slots 收集组内每一架 UAV 的本地数据集进行更新，并下放<mark>这里指的应该是组 UAVs 每一次仅上传新增的数据吧</mark></li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>目标函数</b></summary>
+
+<ul>
+<li>衡量 FFD 任务的鲁棒性的目标函数</li>
+</ul>
+
+$$\begin{cases}
+\max \dfrac{Acc'}{Acc}, \\[4pt]
+\max \displaystyle\sum_{k=1}^{\chi} \big| D_{\mathrm{res}}\big(G_k, V_d(G_k)\big) \big|, \\[4pt]
+\min OH(\boldsymbol{U}, \chi),
+\end{cases}$$
+
+
+<p>$Acc$： detection accuracy of FFD missions without any destroyed UAVs<br>$Acc’$： detection accuracy of FFD missions when some UAVs are destroyed</p>
+<p>其中：<br>（i）第一个目标函数衡量 mission performance maintenance under the destruction of UAVs<br>（ii）第二个目标函数衡量 total size of restored data<br>（iii）第三个目标函数衡量 total communication overhead</p>
+</details>
+
+<hr>
+<details>
+<summary><b>提出的方法</b></summary>
+
+<ul>
+<li>TSPF：</li>
+</ul>
+<p><img src="/images/TSPF.png" alt="TSPF"><br><img src="/images/TSPF%E7%BB%84%E6%88%90.png" alt="TSPF组成"></p>
+<h3 id="A-Balanced-Graph-Coloring-——-算法一"><a href="#A-Balanced-Graph-Coloring-——-算法一" class="headerlink" title="A. Balanced Graph Coloring —— 算法一"></a>A. Balanced Graph Coloring —— 算法一</h3><p>注：The balanced graph coloring is calculated by <mark>a designated UAV 分组的计算任务由单架无人机完成</mark> and the graph coloring results are then sent back to all UAVs to complete the grouping</p>
+<h3 id="B-Intragroup-Backup-Mechanism"><a href="#B-Intragroup-Backup-Mechanism" class="headerlink" title="B. Intragroup Backup Mechanism"></a>B. Intragroup Backup Mechanism</h3><p><img src="/images/%E7%BB%84%E5%86%85%E5%A4%87%E4%BB%BD%E6%9C%BA%E5%88%B6.png" alt="组内备份机制"></p>
+<ul>
+<li><mark>组内备份可以避免集中备份产生的大量通信开销</mark></li>
+</ul>
+<h3 id="C-Dynamic-Server-Selection"><a href="#C-Dynamic-Server-Selection" class="headerlink" title="C. Dynamic Server Selection"></a>C. Dynamic Server Selection</h3><p>（i）得分机制：组服务器的选择和群服务器的选择（群服务器是在组服务器中选择出）均是基于该得分机制，其共同考虑 distribution uniformity deviation and residual battery electricity</p>
+<ul>
+<li><p>distribution uniformity deviation（目的：使得组服务器在 swarm 中均匀分布）</p>
+</li>
+<li><p>$V(v_i)$ 代表以 UAV vi 为中心的立方体体积</p>
+</li>
+<li><p>$V(U)$ 代表 UAV swarm 分布空间的体积</p>
+</li>
+<li><p>$N_i$ 代表 V(vi) 中组服务器的数量</p>
+</li>
+<li><p>$UD(v_i) &#x3D; \left| \frac{N_i}{\chi} - \frac{V(v_i)}{V(U)} \right|$：该数值在 $[0, 1]$，分布的越均匀，该数值越小</p>
+</li>
+<li><p>residual battery electricity（主要考虑飞行消耗能量）</p>
+</li>
+<li><p>SOC（State of Charge）$SOC(v_i) = \frac{E_{init} - E_i}{E_{init}}$ ：每一架 UAV 剩余的归一化电量，该数值同样在 $[0, 1]$</p>
+</li>
+<li><p>$SC(v_i) &#x3D; SOC(v_i) + 1 - UD(v_i)$ （计算每一架 UAV 的得分）</p>
+</li>
+</ul>
+<p>（ii）组服务器和群服务器根据得分情况 every $t^*$ time slots 进行一次动态调整</p>
+<h3 id="D-Two-Tier-Federated-Learning-Model（模型训练-——-算法2）"><a href="#D-Two-Tier-Federated-Learning-Model（模型训练-——-算法2）" class="headerlink" title="D. Two-Tier Federated Learning Model（模型训练 —— 算法2）"></a>D. Two-Tier Federated Learning Model（模型训练 —— 算法2）</h3><p><img src="/images/TFL%E7%BB%93%E6%9E%84.png" alt="TFL结构"></p>
+<ul>
+<li><p>参数：w（权重）和 b（偏置），层 &#x3D; 神经元组</p>
+</li>
+<li><p>TFL 模型训练的目标函数：<br>$$w^* &#x3D; \arg\min_{w} F(w) &#x3D; \arg\min_{w} \frac{\sum_{x\in\mathcal{X}, y\in\mathcal{Y}} l(\mathcal{H}_w(x), y)}{|\mathcal{X}|}$$ </p>
+</li>
+<li><p>structure of Two-Tier Federated Learning：（两层模型之间均是交互模型的参数，可以大幅减少通信压力）<br>（i）每一架 UAV 在本地独自执行梯度下降训练本地模型<br>（ii）下层聚合：将选定层的参数上传给组服务器，进行组内聚合<br>（iii）上层聚合：群服务器聚合组服务器上传的子模型参数，更新 global model parameters 并下放新的模型参数</p>
+</li>
+<li><p>Layer Selection and Submodel Aggregation:</p>
+</li>
+</ul>
+<p><img src="/images/%E5%AD%90%E6%A8%A1%E5%9E%8BTFL.png" alt="子模型TFL"></p>
+<p>（i）global model is divided into τ submodels<br>{S(1),…,S(k),…,S（$\tau$）}（τ ≤ χ）<br>（ii）L &#x3D; {L1,…,Ln} denote the set of all layers in TFL model<br>（iii）$\bigcup_{k&#x3D;1}^{\tau} S(k) &#x3D; L,\quad \text{where } S(j) \cap S(k) &#x3D; \emptyset,\text{ for } j \neq k.$</p>
+<ul>
+<li><p>注：当子模型的数量小于组数，一个子模型会被分给多个组；Starting from S1, each submodel is first randomly assigned to a unique group. After Sτ has been assigned, min(χ−τ, τ) submodels are randomly selected from τ submodels and assigned to the χ − τ groups （without submodels）</p>
+</li>
+<li><p>Model Training Process：</p>
+</li>
+</ul>
+<p>（i）下层聚合公式（group server）：</p>
+
+$$\mathcal{P}_k^{(t)} = w^{(t)} - \frac{\eta}{|G_k^{(t)}|} \cdot \sum_{i\in G_k^{(t)}} \nabla F_i\left(w_{k,i}^{(t)}\right)$$
+
+<ul>
+<li>其中：<ul>
+<li>$w^{(t)}$ &#x3D; 当前全局模型参数</li>
+<li>$\eta$ &#x3D; 学习率</li>
+<li>$G_k^{(t)}$ &#x3D; 组 k 的 UAV 集合</li>
+<li>$w_{k,i}^{(t)}$ &#x3D; 组 k 中 UAV $v_i$ 的子模型参数</li>
+<li>$\nabla F_i$ &#x3D; UAV $v_i$ 本地数据计算的梯度</li>
+</ul>
+</li>
+</ul>
+<p>（ii）上层聚合公式：</p>
+
+$$\mathcal{P}^{(t)}=\begin{cases}
+  \bigoplus_{j=1}^{\tau}\left(\dfrac{1}{|SG_j|}\sum_{G_i\in SG_j}\mathcal{P}_i^{(t)}\right), & \text{if } \tau < \chi,\\[6pt]
+  \bigoplus_{k=1}^{\chi}\mathcal{P}_k^{(t)}, & \text{if } \tau = \chi,
+\end{cases}$$
+
+<ul>
+<li><p>其中：</p>
+<ul>
+<li>$\mathcal{P}^{(t)}$ &#x3D; 本轮的全局模型参数</li>
+<li>$\bigoplus$ &#x3D; concatenation 操作（子模型拼接）</li>
+<li>当 $\tau &lt; \chi$ 时：分配相同子模型的多个组先聚合，再与其他子模型拼接</li>
+<li>当 $\tau &#x3D; \chi$ 时：每组对应唯一子模型，直接拼接无需聚合</li>
+</ul>
+</li>
+<li><p>Adaptive Moment Estimation (Adam)：使用 Adam 方法更新全局模型参数</p>
+<ul>
+<li>每轮迭代计算梯度 $\nabla F(w^{(t)})$ 后，更新 $m_1$、$m_2$ 并用修正值 $\hat{m}_1$、$\hat{m}_2$ 自适应调节学习率</li>
+<li>更新公式：</li>
+</ul>
+
+  $$w^{(t+1)} = w^{(t)} - \eta \cdot \frac{\hat{m}_1^{(t+1)}}{\sqrt{\hat{m}_2^{(t+1)}} + \epsilon}$$
+  
+
+<ul>
+<li><p>其中 $\epsilon$ 为小常数（$10^{-8}$），防止分母为 0</p>
+</li>
+<li><p>一阶矩 $m_1$（惯性方向）：</p>
+<ul>
+<li>$\displaystyle m_1^{(t+1)} &#x3D; \beta_1 \cdot m_1^{(t)} + (1 - \beta_1) \cdot g$，其中 $\beta_1 &#x3D; 0.9$</li>
+<li>历史梯度占 90%，最新梯度占 10%，过滤单步波动</li>
+</ul>
+</li>
+<li><p>二阶矩 $m_2$（波动程度）：</p>
+<ul>
+<li>$\displaystyle m_2^{(t+1)} &#x3D; \beta_2 \cdot m_2^{(t)} + (1 - \beta_2) \cdot g^2$，其中 $\beta_2 &#x3D; 0.999$</li>
+<li>历史平方梯度占 99.9%，反映长周期波动水平</li>
+</ul>
+</li>
+<li><p>偏差修正 $\hat{m}_1$、$\hat{m}_2$：</p>
+<ul>
+<li>$\hat{m}_1 &#x3D; \frac{m_1}{1 - \beta_1^t}$，$\hat{m}_2 &#x3D; \frac{m_2}{1 - \beta_2^t}$</li>
+<li>训练初期 $m_1$、$m_2$ 从 0 累积偏小，除以 $1-\beta^t$ 放大到正常范围</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="E-数据标注"><a href="#E-数据标注" class="headerlink" title="E. 数据标注"></a>E. 数据标注</h3><ul>
+<li>数据标注方式：对于包含 fire 和 non-fire 区域的帧，整帧标记为 fire-positive；无火灾的帧标记为 fire-negative（无需处理），可以大幅减少处理开销</li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>算法实现</b></summary>
+
+<p><strong>Algorithm 1: Balanced Graph Coloring Method</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> 1: Input: UAV swarm U, undirected graph G^&#123;(t)&#125; = (V^&#123;(t)&#125;, E^&#123;(t)&#125;),</span><br><span class="line">           chromatic number χ, Number of UAVs N</span><br><span class="line"> 2: Initialize uncolored set: U_0^&#123;(t)&#125; ← U</span><br><span class="line"> 3: for i = 1 to χ do</span><br><span class="line"> 4:     Initialize group CG_i ← ∅ with a new color</span><br><span class="line"> 5:     U_i^&#123;(t)&#125; ← U_&#123;i-1&#125;^&#123;(t)&#125;</span><br><span class="line"> 6:     while U_i^&#123;(t)&#125; ≠ ∅ do</span><br><span class="line"> 7:         Randomly select UAV v_ϱ ∈ U_i^&#123;(t)&#125;</span><br><span class="line"> 8:         Identify adjacent UAVs</span><br><span class="line">           AU_ϱ^&#123;(t)&#125; = &#123;v_ε | e^&#123;(t)&#125;(v_ϱ, v_ε) ∈ E^&#123;(t)&#125;&#125;</span><br><span class="line"> 9:         if No v_ε ∈ AU_ϱ^&#123;(t)&#125; is in CG_i^&#123;(t)&#125; then</span><br><span class="line">10:             Assign v_ϱ to CG_i^&#123;(t)&#125;</span><br><span class="line">11:         end if</span><br><span class="line">12:         Update uncolored set: U_i^&#123;(t)&#125; ← U_i^&#123;(t)&#125; \ &#123;v_ϱ&#125;</span><br><span class="line">13:     end while</span><br><span class="line">14: end for</span><br><span class="line">15: Compute average group size γ ← N/χ</span><br><span class="line">16: Categorize groups into:</span><br><span class="line">     · Over-sized groups: size &gt; γ</span><br><span class="line">     · Under-sized groups: size &lt; γ</span><br><span class="line">17: Reassign UAVs from over-sized to under-sized groups</span><br><span class="line">     to balance the size of groups</span><br><span class="line">18: Broadcast group coloring results to all UAVs</span><br><span class="line">19: Output: Color groups &#123;CG_1^&#123;(t)&#125;, CG_2^&#123;(t)&#125;, ..., CG_χ^&#123;(t)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Algorithm 2: Two-Tier Federated Learning Model</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"> 1: Input: Initialized global model parameters w*, learning</span><br><span class="line">           rate \eta, number of groups \chi, number of</span><br><span class="line">           submodels \tau, global epochs \kappa_3</span><br><span class="line"> 2: Layer Division: Divide model into \tau submodels</span><br><span class="line">           &#123;S(1), ..., S(\tau)&#125; covering TFL model (all layers)</span><br><span class="line"> 3: Submodel Assignment: Randomly assign each submodel</span><br><span class="line">           S(k) to group(s) G_j</span><br><span class="line"> 4: for each global epoch t = 1 to \kappa_3 do</span><br><span class="line"> 5:     Local training:</span><br><span class="line"> 6:     for each UAV v_i in group G_k do</span><br><span class="line"> 7:         Receive global model w^&#123;(t)&#125; from group server</span><br><span class="line"> 8:         Calculate local gradient \nabla F_i(w_&#123;k,i&#125;^&#123;(t)&#125;)</span><br><span class="line">               on local dataset</span><br><span class="line"> 9:         Update local model w_&#123;k,i&#125;^&#123;(t)&#125;</span><br><span class="line">10:         Transmit updated parameters to group server</span><br><span class="line">11:     end for</span><br><span class="line">12:     Lower-tier aggregation:</span><br><span class="line">13:     for each group server g_k do</span><br><span class="line">14:         Aggregate received updated parameters from each</span><br><span class="line">               UAV in group to obtain submodel parameters</span><br><span class="line">               P_k^&#123;(t)&#125;</span><br><span class="line">15:         Upload P_k^&#123;(t)&#125; to swarm server</span><br><span class="line">16:     end for</span><br><span class="line">17:     Upper-tier aggregation:</span><br><span class="line">18:     if \tau &lt; \chi then</span><br><span class="line">19:         for each submodel S(j) do</span><br><span class="line">20:             Aggregate submodels P_i^&#123;(t)&#125; from multiply</span><br><span class="line">                   groups G_i \in SG_j</span><br><span class="line">21:         end for</span><br><span class="line">22:         Concatenate aggregated submodel to update</span><br><span class="line">               global model parameters w^&#123;(t+1)&#125;</span><br><span class="line">23:     else</span><br><span class="line">24:         Concatenate P_1^&#123;(t)&#125;, ..., P_\chi^&#123;(t)&#125;</span><br><span class="line">               directly to update w^&#123;(t+1)&#125;</span><br><span class="line">25:     end if</span><br><span class="line">26: end for</span><br><span class="line">27: Output: Final global model parameter w^&#123;(\kappa_3)&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<details>
+<summary><b>符号表</b></summary>
+
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$\mathcal{U}$</td>
+<td>UAV swarm</td>
+</tr>
+<tr>
+<td>$\chi$</td>
+<td>Number of groups in $\mathcal{U}$</td>
+</tr>
+<tr>
+<td>$t^*$</td>
+<td>Update interval (number of time slots)</td>
+</tr>
+<tr>
+<td>$N_d$</td>
+<td>Number of destroyed UAVs</td>
+</tr>
+<tr>
+<td>$G_k$</td>
+<td>The $k$-th group in $\mathcal{U}$</td>
+</tr>
+<tr>
+<td>$V_d(G_k)$</td>
+<td>Set of destroyed UAVs in group $G_k$</td>
+</tr>
+<tr>
+<td>$D_{loc}^{(t)}(v_i)$</td>
+<td>Local dataset of UAV $v_i$ at the $t$-th time slot</td>
+</tr>
+<tr>
+<td>$D_{bus}^{(t)}(v_i)$</td>
+<td>Model parameter and business data of UAV $v_i$ in $D_{loc}^{(t)}(v_i)$</td>
+</tr>
+<tr>
+<td>$B^{(t)}(v_i)$</td>
+<td>Business data collected from the visual coverage of UAV $v_i$ at the $t$-th time slot</td>
+</tr>
+<tr>
+<td>$D^{(t)}(G_k)$</td>
+<td>Dataset of group $G_k$ at the $t$-th time slot</td>
+</tr>
+<tr>
+<td>$D_{res}(G_k, V_d(G_k))$</td>
+<td>Restored data of group $G_k$ under destruction of UAVs in $V_d(G_k)$</td>
+</tr>
+<tr>
+<td>$OH(\mathcal{U},\chi)$</td>
+<td>Communication overhead of $\mathcal{U}$</td>
+</tr>
+<tr>
+<td>$\eta$</td>
+<td>Learning rate</td>
+</tr>
+<tr>
+<td>$\beta_1, \beta_2$</td>
+<td>Decay rates for Adam moment estimates ($\beta_1&#x3D;0.9$, $\beta_2&#x3D;0.999$)</td>
+</tr>
+<tr>
+<td>$m_1, m_2$</td>
+<td>First and second moment estimates in Adam</td>
+</tr>
+<tr>
+<td>$\hat{m}_1, \hat{m}_2$</td>
+<td>Bias-corrected moment estimates</td>
+</tr>
+<tr>
+<td>$\epsilon$</td>
+<td>Small constant in Adam ($10^{-8}$)</td>
+</tr>
+</tbody></table>
+</details>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://ssijiof.github.io/2026/07/25/Two-Tier-Submodel-Partition-Framework-for-Enhancing-UAV-Swarm-Robustness-in-Forest-Fire-Detection/" data-id="cuidJB2M92eP84HKVLHZskub3" data-title="Two-Tier Submodel Partition Framework for Enhancing UAV Swarm Robustness in Forest Fire Detection" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Federated-Learning/" rel="tag">Federated-Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Forest-Fire/" rel="tag">Forest-Fire</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UAV-Swarm/" rel="tag">UAV-Swarm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/07/29/Exploring-the-Robustness-Hierarchical-Federated-Learning-Framework-for-Object-Detection-of-UAV-Cluster/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Exploring the Robustness: Hierarchical Federated Learning Framework for Object Detection of UAV Cluster
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FL/" rel="tag">FL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Federated-Learning/" rel="tag">Federated-Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forest-Fire/" rel="tag">Forest-Fire</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HFL/" rel="tag">HFL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV-Swarm/" rel="tag">UAV-Swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/FL/" style="font-size: 10px;">FL</a> <a href="/tags/Federated-Learning/" style="font-size: 10px;">Federated-Learning</a> <a href="/tags/Forest-Fire/" style="font-size: 10px;">Forest-Fire</a> <a href="/tags/HFL/" style="font-size: 10px;">HFL</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/UAV-Swarm/" style="font-size: 10px;">UAV-Swarm</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">七月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/07/29/Exploring-the-Robustness-Hierarchical-Federated-Learning-Framework-for-Object-Detection-of-UAV-Cluster/">Exploring the Robustness: Hierarchical Federated Learning Framework for Object Detection of UAV Cluster</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/25/Two-Tier-Submodel-Partition-Framework-for-Enhancing-UAV-Swarm-Robustness-in-Forest-Fire-Detection/">Two-Tier Submodel Partition Framework for Enhancing UAV Swarm Robustness in Forest Fire Detection</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/">Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/11/python%E8%AF%AD%E6%B3%95/">python语法</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/">A Two-Stage Strategy for UAV-Enabled Wireless Power Transfer in Un-known Environments</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 ssijiof<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
