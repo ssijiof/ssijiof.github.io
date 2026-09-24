@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems | paper and code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="备注：关于纠删码 [12] [13]；关于使用动态 MEC 优于静态 MEC [6]    名词  1. ConvLSTMCNN + LSTM（长短期记忆），同时捕捉空间和时间信息 2. Erasure Coding — EC(k, m)原始数据被均分成 k 个 data block（数据块），计算生成 m 个 parity block（校验块，不是原始数据的直接片段，而是数学运算的冗余结果）；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems">
+<meta property="og:url" content="https://ssijiof.github.io/2026/08/05/Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems/index.html">
+<meta property="og:site_name" content="paper and code">
+<meta property="og:description" content="备注：关于纠删码 [12] [13]；关于使用动态 MEC 优于静态 MEC [6]    名词  1. ConvLSTMCNN + LSTM（长短期记忆），同时捕捉空间和时间信息 2. Erasure Coding — EC(k, m)原始数据被均分成 k 个 data block（数据块），计算生成 m 个 parity block（校验块，不是原始数据的直接片段，而是数学运算的冗余结果）；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ssijiof.github.io/images/%E7%BA%A0%E5%88%A0%E7%A0%81%E4%BC%A0%E9%80%92%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE.png">
+<meta property="og:image" content="https://ssijiof.github.io/images/ME-HDRL.png">
+<meta property="article:published_time" content="2026-08-05T02:38:03.000Z">
+<meta property="article:modified_time" content="2026-08-13T06:17:38.000Z">
+<meta property="article:author" content="ssijiof">
+<meta property="article:tag" content="Edge-Computing">
+<meta property="article:tag" content="Erasure-Coding">
+<meta property="article:tag" content="UAV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ssijiof.github.io/images/%E7%BA%A0%E5%88%A0%E7%A0%81%E4%BC%A0%E9%80%92%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE.png">
+  
+    <link rel="alternate" href="/atom.xml" title="paper and code" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">paper and code</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://ssijiof.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/05/Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems/" class="article-date">
+  <time class="dt-published" datetime="2026-08-05T02:38:03.000Z" itemprop="datePublished">2026-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>备注：关于纠删码 [12] [13]；关于使用动态 MEC 优于静态 MEC [6]</p>
+</blockquote>
+<hr>
+<details>
+<summary><b>名词</b></summary>
+
+<h3 id="1-ConvLSTM"><a href="#1-ConvLSTM" class="headerlink" title="1. ConvLSTM"></a>1. ConvLSTM</h3><p>CNN + LSTM（长短期记忆），同时捕捉空间和时间信息</p>
+<h3 id="2-Erasure-Coding-—-EC-k-m"><a href="#2-Erasure-Coding-—-EC-k-m" class="headerlink" title="2. Erasure Coding — EC(k, m)"></a>2. Erasure Coding — EC(k, m)</h3><p>原始数据被均分成 k 个 data block（数据块），计算生成 m 个 parity block（校验块，不是原始数据的直接片段，而是数学运算的冗余结果）；共 k + m 个块存储在不同节点上；用户只需从可访问节点中收集<strong>任意 k 个块</strong>（数据块或校验块均可）即可 reconstruct 原始数据（<mark>参考 [14]</mark>）</p>
+<h3 id="3-其他关键概念"><a href="#3-其他关键概念" class="headerlink" title="3. 其他关键概念"></a>3. 其他关键概念</h3><ul>
+<li><strong>parity block</strong>：校验块，通过编码矩阵从数据块计算得出，不包含原始数据本身</li>
+<li><strong>block placement</strong>：编码完成后，k + m 个块分别存放在哪些节点上的放置决策</li>
+<li><strong>access</strong>：恢复数据时从存储节点读取编码块的过程</li>
+<li><strong>UAV agent</strong>：每架 UAV 上的本地存储和计算单元</li>
+<li><strong>edge agent</strong>：地面边缘服务器，算力更强、通信稳定，负责全局编码和放置决策</li>
+<li><strong>infrastructure-based MEC</strong>：边缘服务器部署在固定基础设施（基站&#x2F;AP），跟 UAV-based MEC 互补</li>
+<li><strong>D2D communication</strong>：UAV 之间不通过基站、直接点对点通信，access 延迟最低</li>
+<li><strong>cache hit rate</strong>：请求的块刚好在邻近节点就有的概率</li>
+<li><strong>data retrieval delay</strong>：从发出请求到完整恢复数据的总耗时</li>
+<li><strong>non-fully-connected network</strong>：UAV 之间不是每对都有直接通信链路，placement 必须考虑网络拓扑</li>
+</ul>
+<h3 id="4-FDMA（Frequency-Division-Multiple-Access）"><a href="#4-FDMA（Frequency-Division-Multiple-Access）" class="headerlink" title="4. FDMA（Frequency Division Multiple Access）"></a>4. FDMA（Frequency Division Multiple Access）</h3><p>频分多址——将总带宽切分成多个不重叠的子频段，每个用户独占一个子频段同时通信，互不干扰</p>
+<h3 id="5-channel-gain（信道增益）"><a href="#5-channel-gain（信道增益）" class="headerlink" title="5. channel gain（信道增益）"></a>5. channel gain（信道增益）</h3><p>接收功率 &#x3D; 信道增益 × 发射功率。g 衡量信号从发射端到接收端衰减了多少的倒数——g 越大，到达的信号越强。$g \propto 1&#x2F;d^l$（距离越远 g 越小），NLoS 路径额外乘衰减因子 $a&lt;1$</p>
+</details>
+
+<hr>
+<details>
+<summary><b>论文提出的问题</b></summary>
+
+
+<ul>
+<li>UAV 在<strong>storage cost</strong>（存储成本）和 <strong>user data access latency</strong>（数据访问延迟）双目标的约束下，使用纠删码策略提供边缘数据存储服务，并将纠删码策略分治为三个子问题：data encoding 、placement subproblem、block access subproblem</li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>问题场景</b></summary>
+
+<p><img src="/images/%E7%BA%A0%E5%88%A0%E7%A0%81%E4%BC%A0%E9%80%92%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE.png" alt="纠删码传递原始数据"></p>
+<ul>
+<li><p>The original data is divided into three data blocks and encoded into two parity blocks. The mobile user, located at the far-right, prioritizes retrieving coding blocks (d3) from the UAV directly covering its location. Coding blocks<br>(d2) can be transmitted between adjacent UAVs and delivered to the user. If insufficient blocks are retrieved from the UAVs, the remaining blocks (c2) are transmitted from a remote edge server via UAVs to restore the original data.</p>
+<ul>
+<li>救援车辆配备存储资源充当 edge server，协同 UAV 存储编码块，为移动用户提供数据存储服务</li>
+</ul>
+</li>
+<li><p>本论文考虑 disaster relief 场景，where edge servers based on ground infrastructure（地面设施） are damaged and unable to provide services（没有网络，设备之间通过 D2D 交流）</p>
+</li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>创新点</b></summary>
+
+<ul>
+<li><p>使用强化学习解决 joint optimization problems(<mark>之前论文使用蚁群算法解决双优化问题，可以进行算法上的对比</mark>)</p>
+</li>
+<li><p>提出 ME-HDRL：Mobility-Enhanced Hierarchical Deep Reinforcement Learning algorithm</p>
+</li>
+<li><p>目前所看的论文大部分考虑 LOS 而这篇论文综合考虑了 LOS 和 nLOS</p>
+</li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>基于问题建模</b></summary>
+
+<p><img src="/images/ME-HDRL.png" alt="ME-HDRL"></p>
+<h3 id="A-System-Model"><a href="#A-System-Model" class="headerlink" title="A. System Model"></a>A. System Model</h3><ul>
+<li>系统组成：1 个 vehicle-based edge server s + U 架悬停 UAV + D 个移动用户<ul>
+<li>UAV 集合：$\mathcal{U} &#x3D; {1, 2, \dots, U}$</li>
+<li>移动用户集合：$\mathcal{D} &#x3D; {1, 2, \dots, D}$</li>
+<li>时间为离散 time slot：$t \in {1, 2, \dots, \tau}$，等长</li>
+</ul>
+</li>
+<li>数据编码：原始数据 f 被均分成 k 个 data block，编码生成 m 个 parity block，共 $N &#x3D; k + m$ 个 coded block<ul>
+<li>每个 coded block 大小为 $\frac{\text{size}(f)}{k}$</li>
+</ul>
+</li>
+<li>存储容量：<ul>
+<li>edge server：存储资源充足，可存储全部 N 个 coded block</li>
+<li>每架 UAV：至多存储 1 个 coded block [31]（<mark>可不可以对存储的数量进行研究</mark>）</li>
+</ul>
+</li>
+<li>数据请求：每 time slot，用户 d 以概率 p 发起数据请求，优先从覆盖自己的 UAV 检索 coded block</li>
+<li>块传输：coded block 可通过 UAV 间 D2D 传输给用户；UAV 上取不够时从 edge server 通过 UAV 中转取剩余块</li>
+</ul>
+<h3 id="B-Mobility-Model"><a href="#B-Mobility-Model" class="headerlink" title="B. Mobility Model"></a>B. Mobility Model</h3><ul>
+<li><p>所有设备位置是时间 slot t 的函数：</p>
+<ul>
+<li>edge server s：$l_s(t) &#x3D; (x_s(t), y_s(t), 0)$，高度为 0</li>
+<li>UAV u：$l_u(t) &#x3D; (x_u(t), y_u(t), z_u(t))$，悬停在固定高度</li>
+<li>mobile user d：$l_d(t) &#x3D; (x_d(t), y_d(t), 0)$，高度为 0</li>
+</ul>
+</li>
+<li><p>用户在每 time slot 内沿固定方向移动：</p>
+
+  $$\begin{cases}
+  x_d(t+1) = x_d(t) + dis_d(t) \cdot \cos\theta_d(t), \\[4pt]
+  y_d(t+1) = y_d(t) + dis_d(t) \cdot \sin\theta_d(t),
+  \end{cases}$$
+  
+
+<ul>
+<li>$dis_d(t) \in [0, dis_{max}]$：移动距离</li>
+<li>$\theta_d(t) \in [0, 2\pi)$：移动方向</li>
+</ul>
+</li>
+<li><p>UAV 覆盖模型：</p>
+<ul>
+<li>$c_{u,d}(t) \in {0, 1}$：整数变量，值为 1 表示用户 d 在 UAV u 的覆盖范围内</li>
+<li>UAV u 的覆盖向量：$C_u(t) &#x3D; {c_{u,1}(t), c_{u,2}(t), \dots, c_{u,D}(t)}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="C-Storage-Model"><a href="#C-Storage-Model" class="headerlink" title="C.Storage Model"></a>C.Storage Model</h3><ul>
+<li>放置决策向量：<ul>
+<li>数据块放置向量：$\mathcal{X} &#x3D; {x_1, x_2, \dots, x_U}$，其中 $x_i \in {0, 1}$，$x_i&#x3D;1$ 表示 UAV i 存放 data block</li>
+<li>校验块放置向量：$\mathcal{B} &#x3D; {b_1, b_2, \dots, b_U}$，其中 $b_i \in {0, 1}$，$b_i&#x3D;1$ 表示 UAV i 存放 parity block</li>
+</ul>
+</li>
+<li>每架 UAV 至多存储 1 个 coded block：$x_i + b_i \in {0, 1}, \forall i \in \mathcal{U}$</li>
+<li>总 coded block 数量：$N &#x3D; \sum_{i&#x3D;1}^{U} (x_i + b_i)$</li>
+<li>存储成本：$Cost &#x3D; N \cdot \frac{\text{size}(f)}{k}$</li>
+<li>关键权衡：k 越大 → 每块越小（存储成本低），但用户需访问至少 k 个块才能解码 → 若覆盖 UAV 不足，需从远端 edge server 取块，增加传输延迟</li>
+<li>因此 k 是需要学习的核心参数</li>
+</ul>
+<h3 id="D-Communications-Model（优化目标-data-access-latency-相关）"><a href="#D-Communications-Model（优化目标-data-access-latency-相关）" class="headerlink" title="D. Communications Model（优化目标 data access latency 相关）"></a>D. Communications Model（优化目标 data access latency 相关）</h3><ul>
+<li><p>通信类型：A2G（UAV ↔ 用户）、A2A（UAV ↔ UAV）、G2A（edge server ↔ UAV）</p>
+</li>
+<li><p>多址接入：全部设备使用 FDMA，edge server 总带宽 $\text{W}^{\text{edge}}$，UAV 总带宽 $\text{W}^{\text{UAV}}$</p>
+</li>
+<li><p>信道模型：</p>
+<ul>
+<li>A2A（UAV 之间）：以 LoS 路径为主</li>
+<li>A2G &#x2F; G2A（UAV ↔ 用户 &#x2F; edge ↔ UAV）：可能被障碍物遮挡，同时考虑 LoS 和 NLoS 两种路径损耗概率</li>
+</ul>
+</li>
+<li><p>LoS 信道增益（以 UAV ↔ 用户为例）：$g_{u,d}^{\text{LoS}}(t) &#x3D; \frac{g_0}{(d_{u,d}(t))^l}$</p>
+<ul>
+<li>NLoS 信道增益：$g_{u,d}^{\text{NLoS}}(t) &#x3D; \frac{\alpha g_0}{(d_{u,d}(t))^l}$</li>
+<li>同理：$g_{s,u}^{\text{LoS}}(t)$、$g_{s,u}^{\text{NLoS}}(t)$ 用于 edge ↔ UAV；$g_{u’,u}^{\text{LoS}}(t)$ 用于 UAV ↔ UAV</li>
+</ul>
+</li>
+<li><p>距离定义（均为 $L_2$ 范数）：</p>
+<ul>
+<li>edge ↔ UAV：$d_{s,u}(t) &#x3D; |\ell_s(t) - \ell_u(t)|_2$</li>
+<li>UAV ↔ 用户：$d_{u,d}(t) &#x3D; |\ell_u(t) - \ell_d(t)|_2$</li>
+<li>UAV ↔ UAV：$d_{u’,u}(t) &#x3D; |\ell_{u’}(t) - \ell_u(t)|_2$</li>
+</ul>
+</li>
+<li><p>参数：$\alpha$ &#x3D; NLoS 衰减因子，$l$ &#x3D; 路径损耗指数，$g_0$ &#x3D; 参考距离 $d_0&#x3D;1m$ 处的信道增益</p>
+</li>
+</ul>
+<h3 id="G2A-Communication（edge-server-↔-UAV）（其余两个通信方式的建模相似）"><a href="#G2A-Communication（edge-server-↔-UAV）（其余两个通信方式的建模相似）" class="headerlink" title="G2A Communication（edge server ↔ UAV）（其余两个通信方式的建模相似）"></a>G2A Communication（edge server ↔ UAV）（其余两个通信方式的建模相似）</h3><ul>
+<li><p>复合信道增益（结合 LoS 和 NLoS 效应）：</p>
+
+  $$g_{s,u}(t)=\frac{\hat{P}_{s,u}^{LoS}(t) \cdot g_0}{(d_{s,u}(t))^{l}}$$
+  
+</li>
+<li><p>有效 LoS 概率（调整了 NLoS 衰减）：</p>
+
+  $$\hat{P}_{s,u}^{\text{LoS}}(t) = P_{s,u}^{\text{LoS}}(t) + a\bigl(1 - P_{s,u}^{\text{LoS}}(t)\bigr)$$
+  
+</li>
+<li><p>其中 $a&lt;1$ 为 NLoS 链路的衰减因子</p>
+</li>
+<li><p>基准 LoS 概率（S 形函数）：</p>
+
+  $$P_{s,u}^{\text{LoS}}(t) = \frac{1}{1 + \alpha\exp\bigl(-\beta(\theta_{s,u}(t) - \alpha)\bigr)}$$
+  
+</li>
+<li><p>仰角 $\theta_{s,u}(t)$：</p>
+
+  $$\theta_{s,u}(t) = \frac{180}{\pi}\arctan\left(\frac{z_u}{\|\|(x_u(t),y_u(t)) - (x_s(t),y_s(t))\|\|_2}\right)$$
+  
+</li>
+<li><p>带宽分配向量 $\mathcal{H}(t) &#x3D; {h_1(t), h_2(t), \dots, h_U(t)} $，$h_u(t) \in [0, 1]$ 为分给 UAV u 的频谱份额</p>
+</li>
+<li><p>传输速率（香农公式）：</p>
+
+  $$r_{s,u}(t) = h_u(t) W^{\text{edge}} \log_2\left(1 + \frac{p_s(t) g_{s,u}(t)}{N_0 h_u(t) W^{\text{edge}}}\right)$$
+  
+
+<ul>
+<li>$p_s(t)$ &#x3D; edge server 发射功率，$N_0$ &#x3D; 噪声功率谱密度</li>
+<li>$\alpha$, $\beta$ &#x3D; 环境参数（urban &#x2F; rural）</li>
+</ul>
+</li>
+</ul>
+<h3 id="E-System-Delay-Analysis"><a href="#E-System-Delay-Analysis" class="headerlink" title="E. System Delay Analysis"></a>E. System Delay Analysis</h3><ul>
+<li><p>数据访问延迟 &#x3D; 传输延迟 + 解码延迟。随着低复杂度纠删码的发展，解码延迟相对传输延迟可忽略 [30]</p>
+</li>
+<li><p>用户需要 k 个 coded block 才能解码原始数据，块的来源分三种情况：</p>
+</li>
+<li><p>(1) 直接从覆盖该用户的 UAV u 获取：</p>
+<ul>
+<li>$w_{d}^{u}(t) \in \{0, 1\}$：指示用户 d 是否从直接覆盖的 UAV u 获取 coded block</li>
+</ul>
+</li>
+<li><p>(2) 从直接覆盖 UAV u 的邻居 UAV u’ 获取：</p>
+<ul>
+<li>$j_{d}^{u’,u}(t) \in \{0, 1\}$，其中 $\forall u’ \in V_{u}$，$V_u$ 为 u 的邻居节点集</li>
+</ul>
+</li>
+<li><p>(3) 从远端 edge server s 获取，通过直接覆盖 UAV u 转发给用户：</p>
+<ul>
+<li>$o_{d}^{s,u}(t) &#x3D; k - \sum_{i\in\mathcal{U}}\sum_{v\in V_{i}} (w_{d}^{i}(t) + j_{d}^{v,i}(t))$</li>
+<li>即还需要从 edge server 取的块数 &#x3D; k - 已经从 UAV 邻居网络拿到的块数</li>
+</ul>
+</li>
+</ul>
+</details>
+
+<hr>
+<details>
+<summary><b>提出的方法</b></summary>
+
+
+
+</details>
+
+<hr>
+<details>
+<summary><b>算法实现</b></summary>
+
+
+
+</details>
+
+<hr>
+<details>
+<summary><b>符号表</b></summary>
+
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</details>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://ssijiof.github.io/2026/08/05/Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems/" data-id="cuidH2l9WlU4u5psd0h8qIfbe" data-title="Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Edge-Computing/" rel="tag">Edge-Computing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Erasure-Coding/" rel="tag">Erasure-Coding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/08/10/%E5%89%8D%E7%AB%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          前端
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/08/04/SQL%E8%AF%AD%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">SQL语法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Edge-Computing/" rel="tag">Edge-Computing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erasure-Coding/" rel="tag">Erasure-Coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FL/" rel="tag">FL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Federated-Learning/" rel="tag">Federated-Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forest-Fire/" rel="tag">Forest-Fire</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HFL/" rel="tag">HFL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV-Swarm/" rel="tag">UAV-Swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frontend/" rel="tag">frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/Edge-Computing/" style="font-size: 10px;">Edge-Computing</a> <a href="/tags/Erasure-Coding/" style="font-size: 10px;">Erasure-Coding</a> <a href="/tags/FL/" style="font-size: 10px;">FL</a> <a href="/tags/Federated-Learning/" style="font-size: 10px;">Federated-Learning</a> <a href="/tags/Forest-Fire/" style="font-size: 10px;">Forest-Fire</a> <a href="/tags/HFL/" style="font-size: 10px;">HFL</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/UAV-Swarm/" style="font-size: 10px;">UAV-Swarm</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/frontend/" style="font-size: 10px;">frontend</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">九月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/08/">八月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">七月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/09/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/10/%E5%89%8D%E7%AB%AF/">前端</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/05/Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems/">Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/04/SQL%E8%AF%AD%E6%B3%95/">SQL语法</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/29/Exploring-the-Robustness-Hierarchical-Federated-Learning-Framework-for-Object-Detection-of-UAV-Cluster/">Exploring the Robustness: Hierarchical Federated Learning Framework for Object Detection of UAV Cluster</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 ssijiof<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

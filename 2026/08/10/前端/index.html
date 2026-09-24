@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>前端 | paper and code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="结合羽毛球场地预约系统的前端模板学习 HTML 和 Jinja2 模板语法。    一、HTML 基本结构  1. 一个标准的 HTML 页面12345678910&lt;!DOCTYPE html&gt;          &lt;!-- 文档声明：这是 HTML5 --&gt;&lt;html lang&#x3D;&quot;zh-CN&quot;&gt;      &lt;!-- 根标签，lang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端">
+<meta property="og:url" content="https://ssijiof.github.io/2026/08/10/%E5%89%8D%E7%AB%AF/index.html">
+<meta property="og:site_name" content="paper and code">
+<meta property="og:description" content="结合羽毛球场地预约系统的前端模板学习 HTML 和 Jinja2 模板语法。    一、HTML 基本结构  1. 一个标准的 HTML 页面12345678910&lt;!DOCTYPE html&gt;          &lt;!-- 文档声明：这是 HTML5 --&gt;&lt;html lang&#x3D;&quot;zh-CN&quot;&gt;      &lt;!-- 根标签，lang">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-10T06:30:00.000Z">
+<meta property="article:modified_time" content="2026-08-11T07:12:13.225Z">
+<meta property="article:author" content="ssijiof">
+<meta property="article:tag" content="frontend">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="paper and code" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">paper and code</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://ssijiof.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-前端" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/10/%E5%89%8D%E7%AB%AF/" class="article-date">
+  <time class="dt-published" datetime="2026-08-10T06:30:00.000Z" itemprop="datePublished">2026-08-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      前端
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>结合羽毛球场地预约系统的前端模板学习 HTML 和 Jinja2 模板语法。</p>
+</blockquote>
+<hr>
+<details>
+<summary><b>一、HTML 基本结构</b></summary>
+
+<h3 id="1-一个标准的-HTML-页面"><a href="#1-一个标准的-HTML-页面" class="headerlink" title="1. 一个标准的 HTML 页面"></a>1. 一个标准的 HTML 页面</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span>          <span class="comment">&lt;!-- 文档声明：这是 HTML5 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span>&gt;</span>      <span class="comment">&lt;!-- 根标签，lang 指定页面语言 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span>                   <span class="comment">&lt;!-- 头部：元信息（编码、标题） --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>页面标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span>                   <span class="comment">&lt;!-- 身体：用户能看到的内容全在这 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>&lt;head&gt;</code> — 幕后设置，不显示在页面上</li>
+<li><code>&lt;body&gt;</code> — 舞台，所有用户可见的内容</li>
+</ul>
+<h3 id="2-HTML-没有变量、没有循环、没有判断"><a href="#2-HTML-没有变量、没有循环、没有判断" class="headerlink" title="2. HTML 没有变量、没有循环、没有判断"></a>2. HTML 没有变量、没有循环、没有判断</h3><p>HTML 是<strong>标记语言</strong>，不是编程语言。它只负责”画结构”——哪里是标题、哪里是段落、哪里是表单。</p>
+</details>
+
+<hr>
+<details>
+<summary><b>二、常用标签</b></summary>
+
+<h3 id="1-文本类"><a href="#1-文本类" class="headerlink" title="1. 文本类"></a>1. 文本类</h3><table>
+<thead>
+<tr>
+<th>标签</th>
+<th>全称</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;h1&gt;</code> ~ <code>&lt;h6&gt;</code></td>
+<td><strong>H</strong>eading 1~6</td>
+<td>标题，1 最大 6 最小</td>
+<td><code>&lt;h2&gt;全部场馆&lt;/h2&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;p&gt;</code></td>
+<td><strong>P</strong>aragraph</td>
+<td>段落</td>
+<td><code>&lt;p&gt;这是一段文字&lt;/p&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;b&gt;</code></td>
+<td><strong>B</strong>old</td>
+<td>加粗</td>
+<td><code>&lt;b&gt;奥体中心&lt;/b&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;br&gt;</code></td>
+<td><strong>B</strong>reak</td>
+<td>换行（自闭合）</td>
+<td><code>第一行&lt;br&gt;第二行</code></td>
+</tr>
+<tr>
+<td><code>&lt;hr&gt;</code></td>
+<td><strong>H</strong>orizontal <strong>R</strong>ule</td>
+<td>水平分隔线（自闭合）</td>
+<td><code>&lt;hr&gt;</code></td>
+</tr>
+</tbody></table>
+<h3 id="2-链接"><a href="#2-链接" class="headerlink" title="2. 链接"></a>2. 链接</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/venues&quot;</span>&gt;</span>场馆列表<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>a</code> — <strong>A</strong>nchor（锚），超链接标签</li>
+<li><code>href</code> — <strong>H</strong>ypertext <strong>Ref</strong>erence（超文本引用），跳转地址</li>
+</ul>
+<h3 id="3-自闭合标签"><a href="#3-自闭合标签" class="headerlink" title="3. 自闭合标签"></a>3. 自闭合标签</h3><p>以下标签没有 <code>&lt;/...&gt;</code> 闭合版：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span>   <span class="comment">&lt;!-- 换行 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span>   <span class="comment">&lt;!-- 横线 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span>&gt;</span>   <span class="comment">&lt;!-- 输入框 --&gt;</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<details>
+<summary><b>三、属性</b></summary>
+
+<p>属性写在开始标签里，格式：<code>属性名=&quot;值&quot;</code>。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>全称</th>
+<th>常用在哪个标签</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>href</code></td>
+<td><strong>H</strong>ypertext <strong>Ref</strong>erence</td>
+<td><code>&lt;a&gt;</code></td>
+<td>跳转地址</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>—</td>
+<td><code>&lt;input&gt;</code></td>
+<td>表单字段名（Flask 用 <code>request.form.get(&quot;name&quot;)</code> 取值）</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>—</td>
+<td><code>&lt;input&gt;</code></td>
+<td>输入框类型</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><strong>Id</strong>entifier</td>
+<td>任何标签</td>
+<td>给元素唯一编号，JS 用 <code>getElementById(&quot;id&quot;)</code> 找到它</td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td>—</td>
+<td><code>&lt;input&gt;</code></td>
+<td>必填，浏览器自动校验</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td>—</td>
+<td><code>&lt;input&gt;</code></td>
+<td>默认值</td>
+</tr>
+<tr>
+<td><code>style</code></td>
+<td>—</td>
+<td>任何标签</td>
+<td>行内样式（如 <code>style=&quot;color:red;&quot;</code>）</td>
+</tr>
+</tbody></table>
+<h3 id="的-type-常见值"><a href="#的-type-常见值" class="headerlink" title="&lt;input&gt; 的 type 常见值"></a><code>&lt;input&gt;</code> 的 <code>type</code> 常见值</h3><table>
+<thead>
+<tr>
+<th><code>type</code> 值</th>
+<th>效果</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>text</code></td>
+<td>普通文本输入框</td>
+<td>默认值，输啥显示啥</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>密码框</td>
+<td>输入时显示 <code>***</code></td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>日期选择器</td>
+<td>浏览器自带日历弹窗</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td>隐藏字段</td>
+<td>用户看不见，但随表单一起提交</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td>数字输入框</td>
+<td>只能输数字，自带加减箭头</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>邮箱输入框</td>
+<td>浏览器自动校验 <code>@</code> 格式</td>
+</tr>
+<tr>
+<td><code>checkbox</code></td>
+<td>复选框</td>
+<td>方框打勾，多选</td>
+</tr>
+<tr>
+<td><code>radio</code></td>
+<td>单选按钮</td>
+<td>圆形按钮，同一组只能选一个</td>
+</tr>
+<tr>
+<td><code>file</code></td>
+<td>文件选择</td>
+<td>弹出文件选择窗口</td>
+</tr>
+<tr>
+<td><code>submit</code></td>
+<td>提交按钮</td>
+<td>点击提交表单（<code>&lt;button&gt;</code> 更常用）</td>
+</tr>
+</tbody></table>
+</details>
+
+<hr>
+<details>
+<summary><b>四、表单</b></summary>
+
+<h3 id="1-一个完整的登录表单"><a href="#1-一个完整的登录表单" class="headerlink" title="1. 一个完整的登录表单"></a>1. 一个完整的登录表单</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;action&quot;</span> <span class="attr">value</span>=<span class="string">&quot;login&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>用户名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">required</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;password&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">required</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-各部分的含义"><a href="#2-各部分的含义" class="headerlink" title="2. 各部分的含义"></a>2. 各部分的含义</h3><table>
+<thead>
+<tr>
+<th>部分</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;form method=&quot;POST&quot;&gt;</code></td>
+<td>表单开始，<code>method=&quot;POST&quot;</code> 告诉浏览器用 POST 方式提交</td>
+</tr>
+<tr>
+<td><code>&lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;login&quot;&gt;</code></td>
+<td>隐藏字段，用户看不见，但随表单一起提交。Flask 用 <code>request.form.get(&quot;action&quot;)</code> 拿到 <code>&quot;login&quot;</code>，区分是登录还是注册</td>
+</tr>
+<tr>
+<td><code>name=&quot;username&quot;</code></td>
+<td>这个字段的名字。Flask 用 <code>request.form.get(&quot;username&quot;)</code> 拿到用户输入的值</td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td>浏览器自动拦截：不填不能提交</td>
+</tr>
+<tr>
+<td><code>&lt;button type=&quot;submit&quot;&gt;</code></td>
+<td>提交按钮，点击后表单数据发给服务器</td>
+</tr>
+</tbody></table>
+<h3 id="3-type-hidden-—-隐藏字段"><a href="#3-type-hidden-—-隐藏字段" class="headerlink" title="3. type=&quot;hidden&quot; — 隐藏字段"></a>3. <code>type=&quot;hidden&quot;</code> — 隐藏字段</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;action&quot;</span> <span class="attr">value</span>=<span class="string">&quot;login&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>用户看不到</strong> — 不画输入框，不占页面空间</li>
+<li><strong>但随表单提交</strong> — 点登录时，<code>action=login</code> 一起发给 Flask</li>
+<li><strong>用途</strong> — 区分同一个 <code>&lt;form&gt;</code> 是登录还是注册，同一页面可能有多个表单共用一个处理函数</li>
+<li>右键”查看源代码”能看到它，但普通用户不会去翻</li>
+</ul>
+<h3 id="4-数据流"><a href="#4-数据流" class="headerlink" title="4. 数据流"></a>4. 数据流</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用户在 &lt;input name=&quot;username&quot;&gt; 里输入 &quot;zhangsan&quot;</span><br><span class="line">    ↓ 点击提交按钮</span><br><span class="line">浏览器把表单数据打包：&#123;action: &quot;login&quot;, username: &quot;zhangsan&quot;, password: &quot;123&quot;&#125;</span><br><span class="line">    ↓ POST 到 Flask</span><br><span class="line">app.py 里 request.form.get(&quot;username&quot;) → &quot;zhangsan&quot;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<hr>
+<details>
+<summary><b>五、Jinja2 模板语法</b></summary>
+
+<p>HTML 本身没有变量和逻辑。Flask 用 Jinja2 引擎给 HTML 增加了三种标记：</p>
+
+### 1. `{{ }}` — 变量替换
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>欢迎，&#123;&#123; username &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+Flask 传 `username="zhangsan"` → 渲染后变成 `<p>欢迎，zhangsan</p>`。
+
+
+
+### 2. `{% %}` — 控制逻辑
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 条件判断 --&gt;</span></span><br><span class="line">&#123;% if message %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">&quot;color:green;&quot;</span>&gt;</span>&#123;&#123; message &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 循环 --&gt;</span></span><br><span class="line">&#123;% for v in venues %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; v[&#x27;name&#x27;] &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+`{% %}` 里的代码不会出现在最终 HTML 里，只控制"这一段要不要显示"或"这一块循环几次"。
+
+
+
+### 3. 常用辅助函数
+
+| 写法 | 作用 |
+|------|------|
+| `{{ url_for('venues') }}` | 根据 Flask 函数名 `venues` 反查 URL `/venues` |
+| `{{ url_for('courts', venue_id=v['id']) }}` | 带参数生成 URL：`/courts/1` |
+
+
+
+### 5. 模板继承
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends &quot;base.html&quot; %&#125;    <span class="comment">&lt;!-- 继承 base.html 的框架 --&gt;</span></span><br><span class="line">&#123;% block content %&#125;          <span class="comment">&lt;!-- 填充 content 这个坑 --&gt;</span></span><br><span class="line">    ...                       <span class="comment">&lt;!-- 本页独有的内容 --&gt;</span></span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+`base.html` 里有一个 `{% block content %}{% endblock %}` 占位，子页面用相同名字的 block 填上内容。
+
+
+</details>
+
+<hr>
+<details>
+<summary><b>六、JavaScript 事件监听</b></summary>
+
+<p>HTML 里 <code>&lt;script&gt;</code> 标签中的代码是 JavaScript（JS）。JS 负责页面交互——监听用户操作，动态发请求，更新页面。</p>
+<h3 id="1-事件监听模式"><a href="#1-事件监听模式" class="headerlink" title="1. 事件监听模式"></a>1. 事件监听模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">datePicker.<span class="title function_">addEventListener</span>(<span class="string">&#x27;change&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 日期选择器的值发生变化 → 自动执行这个函数</span></span><br><span class="line">    <span class="keyword">const</span> date = datePicker.<span class="property">value</span>;</span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;/check_slots/&#x27;</span> + courtId + <span class="string">&#x27;?date=&#x27;</span> + date)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> res.<span class="title function_">json</span>())</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 拿到服务器返回的 data，动态更新页面</span></span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-三层的分工"><a href="#2-三层的分工" class="headerlink" title="2. 三层的分工"></a>2. 三层的分工</h3><table>
+<thead>
+<tr>
+<th>层</th>
+<th>语言</th>
+<th>做什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>结构</td>
+<td>HTML</td>
+<td>画页面骨架——有什么内容</td>
+</tr>
+<tr>
+<td>样式</td>
+<td>CSS</td>
+<td>化妆——颜色、大小、间距</td>
+</tr>
+<tr>
+<td>行为</td>
+<td>JavaScript</td>
+<td>交互——点击、输入、动态更新</td>
+</tr>
+</tbody></table>
+
+### 3. Flask 传值给 JS
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-handlebars"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">const courtId = </span><span class="template-variable">&#123;&#123; <span class="name">court_id</span> &#125;&#125;</span><span class="language-xml">;   <span class="comment">&lt;!-- Flask 渲染时把数字填进去 --&gt;</span></span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars"></span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+最终浏览器看到的：`const courtId = 1;`
+
+
+</details>
+
+<hr>
+<details>
+<summary><b>七、关键术语</b></summary>
+
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>全称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTML</td>
+<td><strong>H</strong>yper<strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage</td>
+<td>超文本标记语言</td>
+</tr>
+<tr>
+<td>标签（tag）</td>
+<td>—</td>
+<td><code>&lt;p&gt;</code> <code>&lt;/p&gt;</code> 这类，HTML 的基本单元</td>
+</tr>
+<tr>
+<td>属性（attribute）</td>
+<td>—</td>
+<td>标签里的 <code>name=&quot;...&quot;</code> <code>href=&quot;...&quot;</code></td>
+</tr>
+<tr>
+<td>元素（element）</td>
+<td>—</td>
+<td>一个完整的标签 + 属性 + 内容</td>
+</tr>
+<tr>
+<td>自闭合标签</td>
+<td>—</td>
+<td>没有闭合标签的，如 <code>&lt;br&gt;</code> <code>&lt;hr&gt;</code> <code>&lt;input&gt;</code></td>
+</tr>
+<tr>
+<td>渲染（render）</td>
+<td>—</td>
+<td>Flask 把模板里的 <code>&#123;&#123; &#125;&#125;</code> 替换成真实数据，生成最终 HTML</td>
+</tr>
+<tr>
+<td>静态文件</td>
+<td>—</td>
+<td>不经过模板引擎处理的文件（如 <code>.css</code> <code>.js</code> <code>.png</code>）</td>
+</tr>
+</tbody></table>
+</details>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://ssijiof.github.io/2026/08/10/%E5%89%8D%E7%AB%AF/" data-id="cuid93R9DkAtE6Zf1i5wPdxED" data-title="前端" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/frontend/" rel="tag">frontend</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/09/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          深度学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/08/05/Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Edge-Computing/" rel="tag">Edge-Computing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erasure-Coding/" rel="tag">Erasure-Coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FL/" rel="tag">FL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Federated-Learning/" rel="tag">Federated-Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forest-Fire/" rel="tag">Forest-Fire</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HFL/" rel="tag">HFL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV-Swarm/" rel="tag">UAV-Swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frontend/" rel="tag">frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/Edge-Computing/" style="font-size: 10px;">Edge-Computing</a> <a href="/tags/Erasure-Coding/" style="font-size: 10px;">Erasure-Coding</a> <a href="/tags/FL/" style="font-size: 10px;">FL</a> <a href="/tags/Federated-Learning/" style="font-size: 10px;">Federated-Learning</a> <a href="/tags/Forest-Fire/" style="font-size: 10px;">Forest-Fire</a> <a href="/tags/HFL/" style="font-size: 10px;">HFL</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/UAV-Swarm/" style="font-size: 10px;">UAV-Swarm</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/frontend/" style="font-size: 10px;">frontend</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">九月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/08/">八月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">七月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/09/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/10/%E5%89%8D%E7%AB%AF/">前端</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/05/Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems/">Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/04/SQL%E8%AF%AD%E6%B3%95/">SQL语法</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/29/Exploring-the-Robustness-Hierarchical-Federated-Learning-Framework-for-Object-Detection-of-UAV-Cluster/">Exploring the Robustness: Hierarchical Federated Learning Framework for Object Detection of UAV Cluster</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 ssijiof<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

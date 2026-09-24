@@ -14,7 +14,7 @@
 <meta property="og:description" content="一、元组  1. 元组中的元素无法修改2. 元组可以作为字典中的键，而列表不可以3. 使用（ ）创建元组，使用下标访问元组中的元素4. 元组可以作为，list 和 dictionary 的元素1d &#x3D; &#123;(1, 2): &quot;点A&quot;&#125;      二、for 循环  1. 使用 range()123range(stop)              # 0 到 s">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-11T01:46:57.000Z">
-<meta property="article:modified_time" content="2026-07-28T06:48:25.384Z">
+<meta property="article:modified_time" content="2026-08-04T06:03:03.378Z">
 <meta property="article:author" content="ssijiof">
 <meta property="article:tag" content="grammar">
 <meta property="article:tag" content="skills">
@@ -176,10 +176,51 @@
 
 <h3 id="1-语法"><a href="#1-语法" class="headerlink" title="1.语法"></a>1.语法</h3><p>try:<br>    # 尝试执行可能会出错的操作<br>    危险操作()<br>except Exception:<br>    # 如果出错（任何类型），就执行这里<br>    补救措施()<br>注：<br>except 后面分具体的异常类型；Exception 接收所有错误<br>except ValueError:       # 只抓 ValueError<br>except ZeroDivisionError: # 只抓除零错误<br>except FileNotFoundError: # 只抓文件不存在</p>
 </details>
+---
+
+<details>
+<summary><b>七、with（上下文管理器）</b></summary>
+
+<h3 id="1-语法-1"><a href="#1-语法-1" class="headerlink" title="1. 语法"></a>1. 语法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> 对象 <span class="keyword">as</span> 变量名:</span><br><span class="line">    缩进里的代码</span><br><span class="line"><span class="comment"># 出缩进，对象自动关闭</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-作用"><a href="#2-作用" class="headerlink" title="2. 作用"></a>2. 作用</h3><p>无论中间代码是否报错，<code>with</code> 都会保证在退出缩进时自动关闭&#x2F;释放资源。</p>
+<h3 id="3-等价写法"><a href="#3-等价写法" class="headerlink" title="3. 等价写法"></a>3. 等价写法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># with 写法</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;data.txt&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    content = f.read()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等价于不用 with</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;data.txt&quot;</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    content = f.read()</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    f.close()                     <span class="comment"># finally 保证不管怎样都会执行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-常见用法"><a href="#4-常见用法" class="headerlink" title="4. 常见用法"></a>4. 常见用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 文件操作</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;文件&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    content = f.read()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库游标（PyMySQL）</span></span><br><span class="line"><span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">    cursor.execute(<span class="string">&quot;SQL语句&quot;</span>)</span><br><span class="line">    result = cursor.fetchall()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 线程锁</span></span><br><span class="line"><span class="keyword">with</span> threading.Lock():</span><br><span class="line">    共享资源的操作</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-什么对象能用-with？"><a href="#5-什么对象能用-with？" class="headerlink" title="5. 什么对象能用 with？"></a>5. 什么对象能用 with？</h3><p>只要对象内部实现了 <code>__enter__</code> 和 <code>__exit__</code> 方法，就可以使用 <code>with</code>：</p>
+<table>
+<thead>
+<tr>
+<th>常用对象</th>
+<th>进入时（<code>__enter__</code>）</th>
+<th>退出时（<code>__exit__</code>）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open(&quot;文件&quot;)</code></td>
+<td>打开文件</td>
+<td>关闭文件</td>
+</tr>
+<tr>
+<td><code>conn.cursor()</code></td>
+<td>创建游标</td>
+<td>关闭游标</td>
+</tr>
+<tr>
+<td><code>threading.Lock()</code></td>
+<td>获取锁</td>
+<td>释放锁</td>
+</tr>
+</tbody></table>
+<h3 id="6-手动-vs-自动"><a href="#6-手动-vs-自动" class="headerlink" title="6. 手动 vs 自动"></a>6. 手动 vs 自动</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不用 with：必须手动 close，中间出错就泄漏</span></span><br><span class="line">cursor = conn.cursor()</span><br><span class="line">cursor.execute(<span class="string">&quot;SELECT ...&quot;</span>)  <span class="comment"># 如果这里报错</span></span><br><span class="line">cursor.close()                <span class="comment"># 这行永远不会执行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用 with：自动关闭，安全</span></span><br><span class="line"><span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">    cursor.execute(<span class="string">&quot;SELECT ...&quot;</span>)  <span class="comment"># 即使这行报错</span></span><br><span class="line"><span class="comment"># 出缩进 → 自动 cursor.close()，资源不泄露</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://ssijiof.github.io/2026/07/11/python%E8%AF%AD%E6%B3%95/" data-id="cuidLQI9_3FEGHSK3OnUZAG3b" data-title="python语法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://ssijiof.github.io/2026/07/11/python%E8%AF%AD%E6%B3%95/" data-id="cuidu-4zJBWnYXOMMj_Iqip1B" data-title="python语法" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -223,7 +264,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FL/" rel="tag">FL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Federated-Learning/" rel="tag">Federated-Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forest-Fire/" rel="tag">Forest-Fire</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HFL/" rel="tag">HFL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV-Swarm/" rel="tag">UAV-Swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACO/" rel="tag">ACO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Edge-Computing/" rel="tag">Edge-Computing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erasure-Coding/" rel="tag">Erasure-Coding</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FL/" rel="tag">FL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Federated-Learning/" rel="tag">Federated-Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Forest-Fire/" rel="tag">Forest-Fire</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HFL/" rel="tag">HFL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MEC/" rel="tag">MEC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UAV-Swarm/" rel="tag">UAV-Swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WPT/" rel="tag">WPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/frontend/" rel="tag">frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grammar/" rel="tag">grammar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skills/" rel="tag">skills</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
     </div>
   </div>
 
@@ -233,7 +274,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/FL/" style="font-size: 10px;">FL</a> <a href="/tags/Federated-Learning/" style="font-size: 10px;">Federated-Learning</a> <a href="/tags/Forest-Fire/" style="font-size: 10px;">Forest-Fire</a> <a href="/tags/HFL/" style="font-size: 10px;">HFL</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/UAV-Swarm/" style="font-size: 10px;">UAV-Swarm</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a>
+      <a href="/tags/ACO/" style="font-size: 10px;">ACO</a> <a href="/tags/Edge-Computing/" style="font-size: 10px;">Edge-Computing</a> <a href="/tags/Erasure-Coding/" style="font-size: 10px;">Erasure-Coding</a> <a href="/tags/FL/" style="font-size: 10px;">FL</a> <a href="/tags/Federated-Learning/" style="font-size: 10px;">Federated-Learning</a> <a href="/tags/Forest-Fire/" style="font-size: 10px;">Forest-Fire</a> <a href="/tags/HFL/" style="font-size: 10px;">HFL</a> <a href="/tags/MEC/" style="font-size: 10px;">MEC</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/UAV/" style="font-size: 20px;">UAV</a> <a href="/tags/UAV-Swarm/" style="font-size: 10px;">UAV-Swarm</a> <a href="/tags/WPT/" style="font-size: 10px;">WPT</a> <a href="/tags/frontend/" style="font-size: 10px;">frontend</a> <a href="/tags/grammar/" style="font-size: 10px;">grammar</a> <a href="/tags/skills/" style="font-size: 10px;">skills</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">深度学习</a>
     </div>
   </div>
 
@@ -242,7 +283,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">七月 2026</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">九月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/08/">八月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">七月 2026</a></li></ul>
     </div>
   </div>
 
@@ -255,23 +296,23 @@
       <ul>
         
           <li>
+            <a href="/2026/09/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/10/%E5%89%8D%E7%AB%AF/">前端</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/05/Erasure-Coding-Based-Cost-Optimized-and-Latency-Aware-Data-Storage-in-UAV-Enabled-Edge-Systems/">Erasure Coding-Based Cost-Optimized and Latency-Aware Data Storage in UAV-Enabled Edge Systems</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/04/SQL%E8%AF%AD%E6%B3%95/">SQL语法</a>
+          </li>
+        
+          <li>
             <a href="/2026/07/29/Exploring-the-Robustness-Hierarchical-Federated-Learning-Framework-for-Object-Detection-of-UAV-Cluster/">Exploring the Robustness: Hierarchical Federated Learning Framework for Object Detection of UAV Cluster</a>
-          </li>
-        
-          <li>
-            <a href="/2026/07/25/Two-Tier-Submodel-Partition-Framework-for-Enhancing-UAV-Swarm-Robustness-in-Forest-Fire-Detection/">Two-Tier Submodel Partition Framework for Enhancing UAV Swarm Robustness in Forest Fire Detection</a>
-          </li>
-        
-          <li>
-            <a href="/2026/07/20/Bi-Objective-Ant-Colony-Optimization-for-Trajectory-Planning-and-Task-Offloading-in-UAV-Assisted-MEC-Systems/">Bi-Objective Ant Colony Optimization for Trajectory Planning and Task Offloading in UAV-Assisted MEC Systems</a>
-          </li>
-        
-          <li>
-            <a href="/2026/07/11/python%E8%AF%AD%E6%B3%95/">python语法</a>
-          </li>
-        
-          <li>
-            <a href="/2026/07/10/ATwo-StageStrategyforUAV-EnabledWirelessPowerTransferinUn-knownEnvironments/">A Two-Stage Strategy for UAV-Enabled Wireless Power Transfer in Un-known Environments</a>
           </li>
         
       </ul>
