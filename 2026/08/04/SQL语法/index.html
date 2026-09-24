@@ -6,15 +6,15 @@
   
   <title>SQL语法 | paper and code</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="备注：    数据库连接（pymysql）   pymysql.connect(host, port, user, password, database, charset, cursorclass)：建立与 MySQL 的 TCP 连接，返回连接对象 charset&#x3D;&quot;utf8mb4&quot;：Python 与 MySQL 之间传输字符串时使用的编码 cursorclass&#x3D;pymy">
+  <meta name="description" content="面向 MySQL 8 与 PyMySQL 的学习笔记。示例以 Python 调用 MySQL 为主。 建议阅读顺序：连接与事务 → 表结构与约束 → 增删改查 → 查询结果读取 → 多表关联。    数据库连接（pymysql）   pymysql.connect(host, port, user, password, database, charset, cursorclass)：建立与 My">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL语法">
 <meta property="og:url" content="https://ssijiof.github.io/2026/08/04/SQL%E8%AF%AD%E6%B3%95/index.html">
 <meta property="og:site_name" content="paper and code">
-<meta property="og:description" content="备注：    数据库连接（pymysql）   pymysql.connect(host, port, user, password, database, charset, cursorclass)：建立与 MySQL 的 TCP 连接，返回连接对象 charset&#x3D;&quot;utf8mb4&quot;：Python 与 MySQL 之间传输字符串时使用的编码 cursorclass&#x3D;pymy">
+<meta property="og:description" content="面向 MySQL 8 与 PyMySQL 的学习笔记。示例以 Python 调用 MySQL 为主。 建议阅读顺序：连接与事务 → 表结构与约束 → 增删改查 → 查询结果读取 → 多表关联。    数据库连接（pymysql）   pymysql.connect(host, port, user, password, database, charset, cursorclass)：建立与 My">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-04T02:52:50.000Z">
-<meta property="article:modified_time" content="2026-09-24T01:05:15.770Z">
+<meta property="article:modified_time" content="2026-09-24T05:21:40.192Z">
 <meta property="article:author" content="ssijiof">
 <meta property="article:tag" content="SQL">
 <meta name="twitter:card" content="summary">
@@ -105,7 +105,8 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>备注：</p>
+<p>面向 MySQL 8 与 PyMySQL 的学习笔记。示例以 Python 调用 MySQL 为主。</p>
+<p>建议阅读顺序：<strong>连接与事务 → 表结构与约束 → 增删改查 → 查询结果读取 → 多表关联</strong>。</p>
 </blockquote>
 <hr>
 <details>
@@ -119,6 +120,54 @@
 <li><code>conn.commit()</code>：提交事务，将前面的操作真正写入数据库</li>
 <li><code>conn.close()</code>：断开连接</li>
 </ul>
+<p>一个常见流程是：先不指定 <code>database</code> 参数连接 MySQL 服务器并创建数据库；再指定 <code>database=DB_NAME</code> 连接具体数据库，执行建表和增删改查。</p>
+</details>
+
+<hr>
+<details>
+<summary><b>事务与 conn.commit()（何时保存修改）</b></summary>
+
+<h3 id="1-conn-commit-的作用"><a href="#1-conn-commit-的作用" class="headerlink" title="1. conn.commit() 的作用"></a>1. conn.commit() 的作用</h3><p><code>conn.commit()</code> 用于<strong>提交事务</strong>，把本次连接中已经执行的修改真正保存到数据库。</p>
+<p>PyMySQL 默认通常不开启自动提交，因此执行数据修改后应主动提交：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cursor.execute(<span class="string">&quot;INSERT INTO employee (employee_NAME) VALUES (&#x27;张三&#x27;)&quot;</span>)</span><br><span class="line">conn.commit()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-哪些操作后需要提交"><a href="#2-哪些操作后需要提交" class="headerlink" title="2. 哪些操作后需要提交"></a>2. 哪些操作后需要提交</h3><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>是否通常需要 <code>conn.commit()</code></th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>INSERT</code></td>
+<td>需要</td>
+<td>新增数据</td>
+</tr>
+<tr>
+<td><code>UPDATE</code></td>
+<td>需要</td>
+<td>修改数据</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>需要</td>
+<td>删除数据</td>
+</tr>
+<tr>
+<td><code>SELECT</code></td>
+<td>不需要</td>
+<td>只读取，不修改</td>
+</tr>
+<tr>
+<td><code>CREATE</code> &#x2F; <code>ALTER</code> &#x2F; <code>TRUNCATE</code> &#x2F; <code>DROP</code></td>
+<td>通常不需要</td>
+<td>这些 DDL 在 MySQL 中会隐式提交；统一写上也可以</td>
+</tr>
+</tbody></table>
+<h3 id="3-提交与关闭连接的顺序"><a href="#3-提交与关闭连接的顺序" class="headerlink" title="3. 提交与关闭连接的顺序"></a>3. 提交与关闭连接的顺序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">    cursor.execute(<span class="string">&quot;UPDATE employee SET department_name = &#x27;人事部&#x27; WHERE employee_ID = 10003&quot;</span>)</span><br><span class="line"></span><br><span class="line">conn.commit()  <span class="comment"># 先保存</span></span><br><span class="line">conn.close()   <span class="comment"># 再断开</span></span><br></pre></td></tr></table></figure>
+
+<p>如果修改后直接 <code>conn.close()</code> 而没有提交，未提交的 <code>INSERT</code>、<code>UPDATE</code>、<code>DELETE</code> 可能被回滚，数据不会保存。</p>
 </details>
 
 <hr>
@@ -126,16 +175,65 @@
 <summary><b>库和表操作</b></summary>
 
 <ul>
-<li><code>CREATE DATABASE IF NOT EXISTS 库名 CHARACTER SET utf8mb4</code>：建库（如库已存在则跳过）</li>
+<li><code>CREATE DATABASE IF NOT EXISTS 库名 CHARACTER SET utf8mb4</code>：建库（如库已存在则跳过；新项目推荐 <code>utf8mb4</code>）</li>
 <li><code>CREATE TABLE IF NOT EXISTS 表名 (...)</code>：建表（如表已存在则跳过）</li>
-<li><code>AUTO_INCREMENT</code>：自增整数，通常用于主键</li>
-<li><code>PRIMARY KEY</code>：主键约束，唯一标识一行，相当于数组下标</li>
-<li><code>FOREIGN KEY (当前表中要被约束的列) REFERENCES 外表(外表列)</code>：外键约束，保证引用完整性——外键值必须在被引用表中存在</li>
+<li><code>AUTO_INCREMENT</code>：自增整数，通常用于主键；可通过 <code>ALTER TABLE 表名 AUTO_INCREMENT = 10001</code> 设置下一条编号的起始值</li>
+<li><code>PRIMARY KEY</code>：主键约束，唯一且不能为空，用于唯一标识一行</li>
+<li><code>FOREIGN KEY (当前表中要被约束的列) REFERENCES 外表(外表列)</code>：外键约束；外键为非 <code>NULL</code> 时，其值必须能在父表被引用列中找到</li>
 <li><code>NOT NULL</code>：非空约束</li>
-<li><code>UNIQUE</code>：唯一约束，不允许重复值</li>
+<li><code>UNIQUE</code>：唯一约束，限制非 <code>NULL</code> 值不能重复</li>
 <li><code>DEFAULT 值</code>：默认值</li>
 <li>表之间相互独立，通过外键建立关联</li>
 </ul>
+</details>
+
+<hr>
+<details>
+<summary><b>主键、唯一键与索引</b></summary>
+
+<h3 id="1-主键与唯一键"><a href="#1-主键与唯一键" class="headerlink" title="1. 主键与唯一键"></a>1. 主键与唯一键</h3><table>
+<thead>
+<tr>
+<th>约束</th>
+<th>是否可重复</th>
+<th>是否可为 <code>NULL</code></th>
+<th>每张表数量</th>
+<th>常见用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PRIMARY KEY</code></td>
+<td>不可以</td>
+<td>不可以</td>
+<td>只能 1 个</td>
+<td>行的唯一编号</td>
+</tr>
+<tr>
+<td><code>UNIQUE</code> &#x2F; <code>UNIQUE KEY</code></td>
+<td>非 <code>NULL</code> 值不可以</td>
+<td>MySQL 中可以</td>
+<td>可以多个</td>
+<td>身份证号、手机号、邮箱等业务唯一值</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> employee (</span><br><span class="line">    employee_ID <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span> AUTO_INCREMENT,</span><br><span class="line">    id_card <span class="type">VARCHAR</span>(<span class="number">18</span>) <span class="keyword">UNIQUE</span>,</span><br><span class="line">    phone <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">UNIQUE</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在 MySQL 中，唯一键列可以存在多条 <code>NULL</code>，因为 <code>NULL</code> 表示“未知”，多个 <code>NULL</code> 不视为重复。</p>
+<h3 id="2-唯一索引的作用"><a href="#2-唯一索引的作用" class="headerlink" title="2. 唯一索引的作用"></a>2. 唯一索引的作用</h3><p>创建 <code>UNIQUE</code> 约束时，MySQL 会自动建立对应的<strong>唯一索引</strong>，不用再重复创建相同索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CONSTRAINT</span> uk_id_card <span class="keyword">UNIQUE</span> (id_card)</span><br></pre></td></tr></table></figure>
+
+<p>等价目的的写法还包括：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UNIQUE</span> INDEX uk_id_card (id_card)</span><br></pre></td></tr></table></figure>
+
+<p>唯一索引有两个作用：</p>
+<ul>
+<li>保证非空值不重复；</li>
+<li>加快按该列查询的速度，例如 <code>WHERE id_card = &#39;...&#39;</code>。</li>
+</ul>
+<p>不要同时对同一列写 <code>UNIQUE</code> 和重复的 <code>UNIQUE INDEX</code>，否则会创建功能重复的索引，增加存储和写入成本。</p>
+<h3 id="3-联合唯一键"><a href="#3-联合唯一键" class="headerlink" title="3. 联合唯一键"></a>3. 联合唯一键</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UNIQUE</span> KEY uk_name_department (employee_name, department_name)</span><br></pre></td></tr></table></figure>
+
+<p>它限制的是 <strong>(姓名, 部门)</strong> 这个组合不能重复：同一个人可以在不同部门出现，但同一姓名和同一部门的组合不能出现两次。</p>
 </details>
 
 <hr>
@@ -479,8 +577,8 @@
 </tr>
 <tr>
 <td>自增计数器</td>
-<td>不重置</td>
-<td>重置为 1</td>
+<td>通常不重置</td>
+<td>重置为表定义的起始值（普通表通常为 1）</td>
 <td>—</td>
 </tr>
 <tr>
@@ -503,9 +601,9 @@
 </tr>
 <tr>
 <td>磁盘空间</td>
-<td><strong>不释放</strong>，留空洞（需 <code>OPTIMIZE TABLE</code> 回收）</td>
-<td>释放，文件缩回初始大小</td>
-<td>释放</td>
+<td>通常留下可复用空间</td>
+<td>通常会重建表；实际空间回收取决于存储引擎和表空间配置</td>
+<td>通常释放</td>
 </tr>
 <tr>
 <td>所需权限</td>
@@ -529,12 +627,12 @@
 <p>三句话记住：</p>
 <ul>
 <li>只想删一部分，或者要留删除痕迹 → <code>DELETE</code></li>
-<li>要整张表清空、且不关心自增 id 是否从 1 开始 → <code>TRUNCATE</code></li>
+<li>要整张表清空、并希望重置自增计数器 → <code>TRUNCATE</code></li>
 <li>这张表以后不要了 → <code>DROP TABLE</code></li>
 </ul>
 <p><code>DELETE</code> 慢是因为它把每一行的删除都记进日志，为的是可以 <code>ROLLBACK</code>；<code>TRUNCATE</code> 快是因为它不走行级删除，直接把整块数据页丢掉，代价就是<strong>没有后悔药</strong>。</p>
 <h3 id="5-几个要点"><a href="#5-几个要点" class="headerlink" title="5. 几个要点"></a>5. 几个要点</h3><ul>
-<li><strong>自增归零</strong>：<code>TRUNCATE</code> 后 <code>AUTO_INCREMENT</code> 重置，下一次插入的 id 从 1 开始；<code>DELETE</code> 不会，新数据接着原来的最大值往后排</li>
+<li><strong>自增重置</strong>：<code>TRUNCATE</code> 后 <code>AUTO_INCREMENT</code> 会重置到建表时的起始值；普通表的下一条 id 通常从 <code>1</code> 开始。若实验要求从 <code>10001</code> 开始，可执行 <code>ALTER TABLE employee AUTO_INCREMENT = 10001</code>；<code>DELETE</code> 通常不会重置计数器</li>
 <li><strong>不可回滚</strong>：<code>TRUNCATE</code> 会隐式提交事务，执行前开的 <code>conn.begin()</code> 之类都白搭，误操作没法 <code>ROLLBACK</code><ul>
 <li>补充：PostgreSQL 里默认<strong>不重置</strong>自增，要写 <code>TRUNCATE TABLE employee RESTART IDENTITY</code></li>
 </ul>
@@ -561,16 +659,21 @@
 
 <h3 id="2-创建外键的前提条件"><a href="#2-创建外键的前提条件" class="headerlink" title="2. 创建外键的前提条件"></a>2. 创建外键的前提条件</h3><p>以下任一条不满足，<code>CREATE TABLE</code> &#x2F; <code>ALTER TABLE</code> 直接报错：</p>
 <ul>
-<li><strong>被引用的列必须是主键或 <code>UNIQUE</code></strong>——外键必须能唯一定位到父表的一行，指向一个普通列没有意义</li>
-<li><strong>两列的数据类型必须完全一致</strong>——<code>INT</code> 对 <code>INT</code>，不能一个 <code>INT</code> 一个 <code>BIGINT</code>（数量级不同也不行）</li>
+<li><strong>推荐引用父表的主键或 <code>UNIQUE NOT NULL</code> 键</strong>——这能稳定且唯一地定位一条父表记录。MySQL 的 InnoDB 技术上允许引用父表的普通索引，这是 MySQL 的非标准扩展；学习和实际设计中不要依赖它</li>
+<li><strong>两列的数据类型必须兼容</strong>——整数类型的大小和正负号应一致；字符串列的字符集和排序规则应一致</li>
 <li><strong>字符串列时字符集和排序规则要一致</strong>——否则报 <code>Referencing column and referenced column are incompatible</code></li>
 <li><strong>两张表必须是同一个存储引擎</strong>——MySQL 里只有 InnoDB 支持外键，MyISAM 建了会被静默忽略</li>
-<li><strong>外键列会自动创建索引</strong>——MySQL 自动加，不用自己写；但不要手动删掉这个索引，否则外键会失效</li>
+<li><strong>外键列会自动创建索引</strong>——如果没有可用索引，MySQL 会自动加；不要删除仍被外键约束依赖的索引</li>
 <li><strong>表里已有数据时，现有数据必须已满足外键约束</strong>——否则加不上，得先修数据</li>
 </ul>
 <h3 id="3-子表写入时的规则"><a href="#3-子表写入时的规则" class="headerlink" title="3. 子表写入时的规则"></a>3. 子表写入时的规则</h3><ul>
 <li>往子表 <code>INSERT</code> &#x2F; <code>UPDATE</code> 外键列时，<strong>该值必须在父表被引用列中存在</strong>，否则报错<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cannot add or update a child row: a foreign key constraint fails</span><br></pre></td></tr></table></figure></li>
 <li>外键列<strong>可以为 <code>NULL</code></strong>，<code>NULL</code> 不参与约束检查——表示”暂时没有关联对象”，常用于可选关联</li>
+</ul>
+<p>要区分两个位置的 <code>NULL</code>：</p>
+<ul>
+<li><strong>子表外键为 <code>NULL</code></strong>：表示不关联任何父表记录，通常允许；</li>
+<li><strong>父表被引用的键为 <code>NULL</code></strong>：不能作为一个明确的引用目标。因此业务设计中，父表被引用的唯一键应写为 <code>UNIQUE NOT NULL</code>。</li>
 </ul>
 <h3 id="4-父表被删-被改时的四种行为"><a href="#4-父表被删-被改时的四种行为" class="headerlink" title="4. 父表被删 &#x2F; 被改时的四种行为"></a>4. 父表被删 &#x2F; 被改时的四种行为</h3><p>删除或修改父表被引用的那一列时，MySQL 按建表时声明的动作处理：</p>
 <table>
@@ -645,10 +748,165 @@
 </ul>
 </details>
 
+<hr>
+<details>
+<summary><b>SELECT DISTINCT / LIKE / ORDER BY（去重、模糊匹配、排序）</b></summary>
+
+<h3 id="1-语句与作用"><a href="#1-语句与作用" class="headerlink" title="1. 语句与作用"></a>1. 语句与作用</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> department_name</span><br><span class="line"><span class="keyword">FROM</span> employee</span><br><span class="line"><span class="keyword">WHERE</span> department_name <span class="keyword">LIKE</span> <span class="string">&#x27;%部%&#x27;</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> department_name;</span><br></pre></td></tr></table></figure>
+
+<p>作用：从 employee 表里找出<strong>所有部门名称中带”部”字的部门</strong>，去重后按名称排序。</p>
+<h3 id="2-逐行拆解"><a href="#2-逐行拆解" class="headerlink" title="2. 逐行拆解"></a>2. 逐行拆解</h3><table>
+<thead>
+<tr>
+<th>部分</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FROM employee</code></td>
+<td>数据来源是 employee 表</td>
+</tr>
+<tr>
+<td><code>WHERE department_name LIKE &#39;%部%&#39;</code></td>
+<td>只保留 department_name 里<strong>包含”部”字</strong>的行</td>
+</tr>
+<tr>
+<td><code>SELECT DISTINCT department_name</code></td>
+<td>只取 department_name 这一列，并<strong>去重</strong></td>
+</tr>
+<tr>
+<td><code>ORDER BY department_name</code></td>
+<td>按部门名称排序（默认升序 <code>ASC</code>）</td>
+</tr>
+</tbody></table>
+<h3 id="3-书写顺序-≠-执行顺序"><a href="#3-书写顺序-≠-执行顺序" class="headerlink" title="3. 书写顺序 ≠ 执行顺序"></a>3. 书写顺序 ≠ 执行顺序</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">书写：SELECT → FROM → WHERE → ORDER BY</span><br><span class="line">执行：FROM → WHERE → SELECT (DISTINCT) → ORDER BY</span><br></pre></td></tr></table></figure>
+
+<p>完整的逻辑执行顺序：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT</span><br></pre></td></tr></table></figure>
+
+<p>由此得到一条实用结论：</p>
+<ul>
+<li><code>WHERE</code> 里<strong>不能</strong>用 <code>SELECT</code> 中起的别名——WHERE 执行时别名还不存在</li>
+<li><code>ORDER BY</code> 里<strong>可以</strong>用别名——它在 SELECT 之后执行</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 报错：Unknown column &#x27;部门&#x27; in &#x27;where clause&#x27;</span></span><br><span class="line"><span class="keyword">SELECT</span> department_name <span class="keyword">AS</span> 部门 <span class="keyword">FROM</span> employee <span class="keyword">WHERE</span> 部门 <span class="operator">=</span> <span class="string">&#x27;技术部&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 正确：条件里写原始列名</span></span><br><span class="line"><span class="keyword">SELECT</span> department_name <span class="keyword">AS</span> 部门 <span class="keyword">FROM</span> employee <span class="keyword">WHERE</span> department_name <span class="operator">=</span> <span class="string">&#x27;技术部&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 正确：排序里可以用别名</span></span><br><span class="line"><span class="keyword">SELECT</span> department_name <span class="keyword">AS</span> 部门 <span class="keyword">FROM</span> employee <span class="keyword">ORDER</span> <span class="keyword">BY</span> 部门;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-DISTINCT-去重"><a href="#4-DISTINCT-去重" class="headerlink" title="4. DISTINCT 去重"></a>4. DISTINCT 去重</h3><p>employee 表里一个部门有很多员工，每人是独立一行，直接查会重复。<code>DISTINCT</code> 让每个不同的值只出现一次。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">不加 DISTINCT：技术部、技术部、市场部、人事部</span><br><span class="line">加 DISTINCT：  技术部、市场部、人事部</span><br></pre></td></tr></table></figure>
+
+<p>两个要点：</p>
+<ul>
+<li><strong>作用域是整行</strong>：<code>SELECT DISTINCT a, b</code> 是对 (a, b) <strong>组合</strong>去重，不是只对 a 去重。所以 <code>SELECT DISTINCT department_name, name</code> 会得到所有员工行，等于没去重</li>
+<li><strong>尽量只选需要的列</strong>：<code>SELECT DISTINCT *</code> 几乎等于 <code>SELECT *</code>，因为主键 id 各不相同，没有任何两行是重复的</li>
+</ul>
+<h3 id="5-LIKE-模糊匹配"><a href="#5-LIKE-模糊匹配" class="headerlink" title="5. LIKE 模糊匹配"></a>5. LIKE 模糊匹配</h3><p><code>%</code> 是通配符，代表<strong>任意个字符</strong>（0 个或多个都算）；<code>_</code> 代表<strong>恰好一个字符</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>含义</th>
+<th>能匹配</th>
+<th>不能匹配</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&#39;%部%&#39;</code></td>
+<td>包含”部”，位置不限</td>
+<td>技术部、部门</td>
+<td>财务</td>
+</tr>
+<tr>
+<td><code>&#39;部%&#39;</code></td>
+<td>以”部”开头</td>
+<td>部门、部长</td>
+<td>技术部</td>
+</tr>
+<tr>
+<td><code>&#39;%部&#39;</code></td>
+<td>以”部”结尾</td>
+<td>技术部、人事部</td>
+<td>部门</td>
+</tr>
+<tr>
+<td><code>&#39;_部%&#39;</code></td>
+<td>第二个字是”部”</td>
+<td>内部、本部</td>
+<td>技术部</td>
+</tr>
+</tbody></table>
+<p>⚠️ <strong>性能</strong>：<code>%</code> 开头的模式（如 <code>&#39;%部%&#39;</code>、<code>&#39;%部&#39;</code>）用不上索引，会<strong>全表扫描</strong>，数据量大时非常慢；<code>&#39;部%&#39;</code> 这种前缀匹配才能走索引。</p>
+<p>要匹配<strong>字面的</strong> <code>%</code> 或 <code>_</code>，用反斜杠转义：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查找名称里真的含有 % 的记录</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employee <span class="keyword">WHERE</span> department_name <span class="keyword">LIKE</span> <span class="string">&#x27;%\%%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-ORDER-BY-排序"><a href="#6-ORDER-BY-排序" class="headerlink" title="6. ORDER BY 排序"></a>6. ORDER BY 排序</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> department_name;              <span class="comment">-- 升序（默认，等同于 ASC）</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> department_name <span class="keyword">DESC</span>;         <span class="comment">-- 降序</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> department_name <span class="keyword">ASC</span>, id <span class="keyword">DESC</span>; <span class="comment">-- 多列排序：先按部门升序，同部门内按 id 降序</span></span><br></pre></td></tr></table></figure>
+
+<p>三个要点：</p>
+<ul>
+<li><strong>默认 <code>ASC</code></strong>，不写就是升序</li>
+<li><strong>多列排序</strong>：前面的列相同时，才用后面的列决定顺序</li>
+<li><strong><code>NULL</code> 的位置</strong>：MySQL 中升序时 <code>NULL</code> 排在最前，降序时排在最后</li>
+</ul>
+<p>⚠️ <strong>中文排序不是拼音</strong>：<code>ORDER BY</code> 的实际顺序取决于列的排序规则（collation）。utf8mb4 默认按 <strong>Unicode 码点</strong>排，所以”人事部”排在”市场部”前面、”市场部”又排在”技术部”前面——看起来毫无规律。</p>
+<p>想按拼音排，可以借道 GBK 编码（GBK 的汉字顺序大致等于拼音顺序）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">CONVERT</span>(department_name <span class="keyword">USING</span> gbk);</span><br></pre></td></tr></table></figure>
+
+<p>更稳妥的做法是在表里额外存一列拼音（如 <code>department_pinyin</code>），插入时算好，排序直接用它——还能顺便用上索引。</p>
+<h3 id="7-完整实例"><a href="#7-完整实例" class="headerlink" title="7. 完整实例"></a>7. 完整实例</h3><p>employee 表：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>department_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>张三</td>
+<td>技术部</td>
+</tr>
+<tr>
+<td>2</td>
+<td>李四</td>
+<td>技术部</td>
+</tr>
+<tr>
+<td>3</td>
+<td>王五</td>
+<td>市场部</td>
+</tr>
+<tr>
+<td>4</td>
+<td>赵六</td>
+<td>人事部</td>
+</tr>
+<tr>
+<td>5</td>
+<td>孙七</td>
+<td>财务</td>
+</tr>
+</tbody></table>
+<p>执行过程：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM employee        → 5 行</span><br><span class="line">WHERE LIKE &#x27;%部%&#x27;    → 技术部、技术部、市场部、人事部（&quot;财务&quot;没有&quot;部&quot;字，被排除）</span><br><span class="line">SELECT DISTINCT      → 技术部、市场部、人事部</span><br><span class="line">ORDER BY             → 人事部、市场部、技术部</span><br></pre></td></tr></table></figure>
+
+<p>最终结果三行：<code>人事部</code>、<code>市场部</code>、<code>技术部</code>。</p>
+<h3 id="8-DISTINCT-还是-GROUP-BY"><a href="#8-DISTINCT-还是-GROUP-BY" class="headerlink" title="8. DISTINCT 还是 GROUP BY"></a>8. DISTINCT 还是 GROUP BY</h3><p>两者都能去重，区别是 <strong><code>DISTINCT</code> 只管去重，<code>GROUP BY</code> 还能顺便做聚合统计</strong>。需要算数量、求和时用 <code>GROUP BY</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> department_name, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> 人数</span><br><span class="line"><span class="keyword">FROM</span> employee</span><br><span class="line"><span class="keyword">WHERE</span> department_name <span class="keyword">LIKE</span> <span class="string">&#x27;%部%&#x27;</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> department_name</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> department_name;</span><br></pre></td></tr></table></figure>
+
+<p>MySQL 8 里两者的执行计划常常是一样的，所以选择依据是<strong>要不要聚合函数</strong>，而不是性能。</p>
+<h3 id="9-常见坑"><a href="#9-常见坑" class="headerlink" title="9. 常见坑"></a>9. 常见坑</h3><ul>
+<li><strong><code>WHERE</code> 里用 <code>SELECT</code> 的别名会报 <code>Unknown column</code></strong>——执行顺序决定的，见第 3 节</li>
+<li><strong><code>DISTINCT</code> 和 <code>ORDER BY</code> 搭配时</strong>，排序的列必须出现在 <code>SELECT</code> 列表里，否则 MySQL（开启 <code>ONLY_FULL_GROUP_BY</code> 时）会报错<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 报错：ORDER BY 的 id 不在 SELECT 列表里，与 DISTINCT 冲突</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> department_name <span class="keyword">FROM</span> employee <span class="keyword">ORDER</span> <span class="keyword">BY</span> id;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 正确</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> department_name <span class="keyword">FROM</span> employee <span class="keyword">ORDER</span> <span class="keyword">BY</span> department_name;</span><br></pre></td></tr></table></figure></li>
+<li><strong><code>SELECT DISTINCT *</code> 基本无效</strong>——有主键在，所有行都不重复</li>
+<li><strong><code>&#39;%部%&#39;</code> 会全表扫描</strong>——模糊匹配用前导 <code>%</code> 就要接受这个代价，数据量大时考虑全文索引或专门的搜索方案</li>
+<li><strong>中文排序别指望拼音</strong>——默认按 Unicode 码点，要拼音得显式转换或另存一列</li>
+</ul>
+</details>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://ssijiof.github.io/2026/08/04/SQL%E8%AF%AD%E6%B3%95/" data-id="cuid_G2JlyCbR3-wCHjd1wzWC" data-title="SQL语法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://ssijiof.github.io/2026/08/04/SQL%E8%AF%AD%E6%B3%95/" data-id="cuid0u5cKkZ1laYHhkQJmPl6J" data-title="SQL语法" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
